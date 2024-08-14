@@ -1,0 +1,41 @@
+
+.LoginField {
+    display: flex;
+    flex-direction: column;
+    align-items:left;
+    label {
+        color: rgba(57, 57, 57, 0.669);
+        font-size : 1em;
+    }
+    .inputLine{
+        display:flex;
+        flex-direction: row;
+        gap:15px;
+        justify-content: flex-start;
+        align-items: center;
+    
+        input {
+            height: 30px;
+            width: 400px;
+            border-color: rgba(43, 29, 173, 0.099);
+            border-width: 2px;
+            background-color:#ebe9ff;
+            border-radius: 10px;
+            padding: 0px 10px;
+            
+        }
+
+        input:hover{
+            background-color: rgba(255, 255, 255, 0.685);
+        }
+
+        input:focus{
+            background-color:#ebe9ff;
+            border-color: rgba(0, 0, 255, 0.353);
+            border-width: 1px;
+            outline: none; 
+        }
+
+        
+    }
+}

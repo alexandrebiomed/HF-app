@@ -1,0 +1,231 @@
+hr{
+    background-color: rgb(147, 147, 147);
+    opacity: 20%;
+    border: none;
+    height: 2px;
+    width: 80%;
+    margin:0px;
+}
+
+.page{
+    background-color: rgba(255, 243, 219, 0.514);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height:100%;
+    
+    .loginPage{
+        background-color: rgba(255, 229, 229, 0.356);
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        font-size: 2em;
+        height: 100vh;
+        width: 25em;
+
+        .loginCard {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            background-color: rgba(202, 196, 255, 0.493);
+            background: linear-gradient(45deg, #ffd8cf, #bf60ff86); /* Gradient at a 45-degree angle */
+            padding:25px;
+            border-radius: 15px;
+            width: 25em;
+            box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
+            gap:10px;
+            
+            .titleContainer{
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                
+                #login-title{
+                    color:white;
+                    text-align: center;
+                    font-family: "Nunito", sans-serif;
+                    font-size: 1.5em;
+                    text-shadow: none;
+                    margin:0px;
+                }
+                
+                
+            }
+            
+        
+            .form{
+                display: flex;
+                flex-direction: row;
+                justify-content: flex-start;
+                align-items: center;
+                .userInputs{
+                    font-size: 0.5em;
+                    width: 420px;
+                    margin-left:25px;
+                    flex:2;
+
+                    .submitButton{
+                        position:relative;
+                        left: 55px;
+                        color: white;
+                        font-size: 20px;
+                        font-weight: 700;
+                        font-family: "Nunito", sans-serif;
+                        width: 350px;
+                        height: 35px;
+                        margin-top: 20px;
+                        background-color: rgba(0, 85, 232, 0.555);
+                        border-radius: 2em;
+                        border-color: rgba(255, 255, 255, 0.177);
+                        transition: background-color 0.7s, border-color 0.7s, color 0.7s;
+                    }
+                    
+                    .submitButton:hover{
+                        font-weight: bolder;
+                        background-color: rgb(0, 11, 128);
+                    }
+                    
+                    .submitButton:focus {
+                        animation: shrinkAndGrow 0.3s ease-in-out 0s both;
+                      }
+                }
+          
+                #loginImage {
+                    position: relative; /* Position the last item absolutely */
+                    left:20px;
+                    justify-content: center;
+                    width: 3em;
+                    height: auto;
+                    border-radius : 50%;
+                    transition: transform 1s ease;
+                    opacity: 0.15;
+                    flex:1;
+                  }
+                  #loginImage:hover {
+                    transform-style: preserve-3d;
+                    transform: rotate(360deg) scale(140%);
+                    opacity: 1;
+                  }
+            }
+
+            .or-separation{
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                #or{
+                    color:white;
+                    text-align: center;
+                    font-family: "Nunito", sans-serif;
+                    font-size: 0.8em;
+                    text-shadow: none;
+                    margin:0px 15px;
+                }
+                
+                
+            }
+            
+
+            .signWith{
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap:2em;
+
+          
+
+                    #google-button{
+                        display: flex;
+                        align-items: center;
+                        justify-content: flex-start;
+                        height: 30px;
+                        width: 200px;
+                        border-color: rgba(43, 29, 173, 0.099);
+                        border-width: 1px;
+                        background-color:#f7f6ff;
+                        border-radius: 10px;
+                        font-family: "Nunito", sans-serif;
+                        font-size: auto;
+                        font-weight: 500;
+                        padding-left: 20px;
+
+                        span{
+                            padding-left: 10px;
+                        }
+                    }
+
+                    #google-button:hover{
+                        scale:1.1;
+                    }
+
+                    #facebook-button{
+                        display: flex;
+                        align-items: center;
+                        justify-content: flex-start;
+                        height: 30px;
+                        width: 200px;
+                        border-color: rgba(43, 29, 173, 0.099);
+                        border-width: 1px;
+                        background-color:#f7f6ff;
+                        border-radius: 10px;
+                        font-family: "Nunito", sans-serif;
+                        font-size: auto;
+                        font-weight: 500;
+                        padding-left: 20px;
+
+                        span{
+                            padding-left: 10px;
+                        }
+                    }
+
+                    #facebook-button:hover{
+                        scale:1.1;
+                    }
+
+                    #github-button{
+                        display: flex;
+                        align-items: center;
+                        justify-content: flex-start;
+                        height: 30px;
+                        width: 200px;
+                        border-color: rgba(43, 29, 173, 0.099);
+                        border-width: 1px;
+                        background-color:#f7f6ff;
+                        border-radius: 10px;
+                        font-family: "Nunito", sans-serif;
+                        font-size: auto;
+                        font-weight: 500;
+                        padding-left: 20px;
+
+                        span{
+                            padding-left: 10px;
+                        }
+                    }
+
+                    #github-button:hover{
+                        scale:1.1;
+                    }
+                }
+        }
+    }
+}
+
+
+@keyframes shrinkAndGrow {
+    0% {
+      transform: scale(1); /* Normal size */
+    }
+    50% {
+      transform: scale(0.9); /* Shrink to 90% of original size */
+    }
+    100% {
+      transform: scale(1); /* Return to normal size */
+    }
+  }
+
+
+
+
+
+
+

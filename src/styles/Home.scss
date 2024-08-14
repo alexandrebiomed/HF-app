@@ -1,0 +1,195 @@
+.home {
+  background-color: rgba(255, 230, 210, 0.63);
+  display: grid;
+  justify-content: center; // Horizontally centers the container
+  align-items: center;
+
+  .home-container {
+    margin-left: 10px;
+    margin-right: 10px;
+    max-width: 1500px;
+    min-width: 1000px;
+  }
+
+  section {
+    .home-container {
+      &.section1 {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        margin-top: 10px;
+
+        .text {
+          margin-left: 50px;
+          flex: 2;
+
+          h1 {
+            position: relative;
+            top: 20px;
+            text-decoration: none;
+            color: black;
+            text-shadow: 3px 3px 0px white;
+            font-size: 30px;
+            font-family: "Playwrite BE WAL", cursive;
+          }
+
+          h2, h3, h4, h5, h6 {
+            font-family: "Playwrite BE WAL", cursive;
+            font-weight: 500;
+            font-style: normal;
+          }
+
+          p {
+            text-align: justify;
+            line-height: 25px;
+            color: rgb(125, 102, 81);
+            font-family: "Roboto", sans-serif;
+            font-size: 20px;
+            font-weight: 300;
+          }
+        }
+
+        .image {
+          flex: 1;
+
+          #imageSection1 {
+            width: 550px;
+            height: auto;
+            border-radius: 50%;
+          }
+        }
+      }
+
+      &.section2 {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        margin-top: 15px;
+
+        .text {
+          margin-right: 100px;
+          margin-left: 65px;
+          flex: 2;
+
+          h1 {
+            position: relative;
+            top: 20px;
+            text-decoration: none;
+            color: black;
+            text-shadow: 3px 3px 0px white;
+            font-size: 30px;
+            font-family: "Playwrite BE WAL", cursive;
+          }
+
+          h2, h3, h4, h5, h6 {
+            font-family: "Playwrite BE WAL", cursive;
+            font-weight: 500;
+            font-style: normal;
+          }
+
+          p {
+            text-align: justify;
+            line-height: 25px;
+            color: rgb(125, 102, 81);
+            font-family: "Roboto", sans-serif;
+            font-size: 20px;
+            font-weight: 300;
+          }
+        }
+
+        .image {
+          flex: 1;
+
+          #imageSection2 {
+            width: 400px;
+            height: auto;
+            margin-left: 40px;
+            min-width: 350px;
+          }
+        }
+      }
+
+      &.section3 {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+
+        .text {
+          margin-left: 50px;
+          flex: 2;
+
+          h1 {
+            position: relative;
+            top: 20px;
+            text-decoration: none;
+            color: black;
+            text-shadow: 3px 3px 0px white;
+            font-size: 30px;
+            font-family: "Playwrite BE WAL", cursive;
+          }
+
+          h2, h3, h4, h5, h6 {
+            font-family: "Playwrite BE WAL", cursive;
+            font-weight: 500;
+            font-style: normal;
+          }
+
+          p {
+            text-align: justify;
+            line-height: 25px;
+            color: rgb(125, 102, 81);
+            font-family: "Roboto", sans-serif;
+            font-size: 20px;
+            font-weight: 300;
+          }
+        }
+
+        .image {
+          flex: 1;
+
+          #imageSection3 {
+            width: 350px;
+            height: auto;
+            border-radius: 20% 20%;
+            margin-left: 40px;
+          }
+        }
+      }
+    }
+  }
+
+  hr {
+    background-color: rgb(147, 147, 147);
+    opacity: 20%;
+    border: none;
+    height: 2px;
+    width: 80%;
+
+    &.hr-scrollable {
+      position: relative;
+    }
+
+    #hr1 {
+      bottom: 15px;
+    }
+
+    #hr2 {
+      bottom: 10px;
+    }
+
+    #hr3 {
+      bottom: 10px;
+      background-color: rgb(147, 147, 147);
+      opacity: 20%;
+    }
+  }
+
+  .footer {
+    display: block;
+    justify-items: center;
+    text-align: center;
+    margin: auto;
+    width: 100%;
+    background-color: rgba(73, 73, 73, 0.1);
+  }
+}
