@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState, useNavigate } from 'react';
 import LoginField from './LoginField';
 
 import { FaUserCircle } from "react-icons/fa";
@@ -12,32 +12,34 @@ import { FaGithub } from "react-icons/fa";
 import "../styles/LoginForm.scss";
 
 function LoginForm() {
-  const [name, setName] = useState('');
+  const [username, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [response, setResponse] = useState('');
+  const [error, setError] = useState('');
+  const navigate = useNavigate();
 
-  const handleSubmit = async (event) => {
+  const handleLoginSubmit = async (event) => {
     event.preventDefault();
 
-    const formData = { name, email, password };
+    const formData = { username:username, email:email, password:password };
 
-    try {
+    try{
       const res = await fetch('/login', {
-        method: 'POST',
+        method:'POST',
         headers: {
-          'Content-Type': 'application/json',
+          'Content-Type':'application/json',
         },
-        body: JSON.stringify(formData),
-      });
+        body:JSON.stringify(formData)
+      })
 
       const result = await res.json();
-      setResponse(result.message);
-    } catch (error) {
+      if (result.validity){
+        navigate('/content')
+      }
+    }catch(error){
       console.error('Error submitting form:', error);
-      setResponse('There was an error submitting the form.');
     }
-  };
+    };
 
   return (
     <div className="page">
@@ -48,33 +50,39 @@ function LoginForm() {
             <hr/>
           </div>
           <div className="login-container form">
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleLoginSubmit}>
               <div className="login-container userInputs">
                   <LoginField
                   fieldName="username"
                   type="text"
-                  value={name}
+                  value={username}
+                  name='username'
+                  id='usernameInput'
                   onchange={(e)=> setName(e.target.value)}
-                  icon={<FaUserCircle style={{fontSize:"25px"}}/>}
+                  icon={<FaUserCircle style={{fontSize:"25px", opacity:"0.8"}}/>}
                   require={true} />
                   <LoginField
                   fieldName="email"
                   type="email"
                   value={email}
+                  name='email'
+                  id='emailInput'
                   onchange={(e)=> setEmail(e.target.value)}
-                  icon={<IoIosMail style={{fontSize:"25px"}}/>}
+                  icon={<IoIosMail style={{fontSize:"25px", opacity:"0.8"}}/>}
                   require={true} />
                   <LoginField
                   fieldName="password"
                   type="password"
                   value={password}
+                  name='password'
+                  id='passwordInput'
                   onchange={(e)=> setPassword(e.target.value)}
-                  icon={<RiLockPasswordFill style={{fontSize:"25px"}}/>}
-                  require={true} />  
+                  icon={<RiLockPasswordFill style={{fontSize:"25px", opacity:"0.8"}}/>}
+                  require={true} />
                   <button type="submit" className="submitButton">Log in</button>
               </div>
             </form>
-            <img src="../../public/images/logo2RB.png" alt="image" id="loginImage" />
+            <img src="/images/logo2RB.png" alt="image" id="loginImage" />
           </div>
           <div className="or-separation">
             <hr/>

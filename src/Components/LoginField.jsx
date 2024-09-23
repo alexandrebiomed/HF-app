@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import "../styles/LoginField.scss";
 
 
@@ -7,13 +8,15 @@ function LoginField(props) {
     return (
         <div className="LoginField">
             <div style={{marginBottom:"5px"}}>
-                <label >{props.fieldName}</label>
+                <label htmlFor={props.id} >{props.fieldName}</label>
             </div>
             
             <div className="container inputLine">
                 {props.icon}
                 <input
                     type={props.type}
+                    id={props.id}
+                    name={props.name}
                     value={props.value}
                     onChange={props.onchange}
                     required={props.require} 
@@ -22,6 +25,19 @@ function LoginField(props) {
         </div>
     )
   }
+
+LoginField.propTypes = {
+    fieldName:PropTypes.string.isRequired,
+    icon:PropTypes.element.isRequired,
+    type:PropTypes.string.isRequired,
+    id:PropTypes.string.isRequired,
+    name:PropTypes.string.isRequired,
+    value:PropTypes.string.isRequired,
+    onchange:PropTypes.func.isRequired,
+    require:PropTypes.bool.isRequired,
+  };
+    
+  
   
   export default LoginField
   
