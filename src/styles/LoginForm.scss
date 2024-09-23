@@ -1,10 +1,15 @@
 hr{
     background-color: rgb(147, 147, 147);
-    opacity: 20%;
+    opacity: 0.2;
     border: none;
     height: 2px;
     width: 80%;
     margin:0px;
+}
+
+.loginErrorMessageActive{
+    display:none;
+    color: red;
 }
 
 .page{

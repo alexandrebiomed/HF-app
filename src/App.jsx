@@ -1,11 +1,11 @@
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './Components/Home';
 import About from './Components/About';
 import Contact from './Components/Contact';
 import Team from './Components/Team';
 import LoginForm from './Components/LoginForm';
 import Content from './Components/Content';
-import Navbar from './Components/Navbar';
+import NavBar from './Components/NavBar';
 
 function App() {
 
@@ -16,30 +16,30 @@ function App() {
          
           <Route path="/" element={
             <div style={{display:"flex",flexDirection:"column",justifyContent:"Center",alignItems:"center"}}>
-              <Navbar />
+              <NavBar />
               <Home />
             </div>
           }/>
 
           <Route path="/about" element={
-            <>
-              <Navbar />
+            <div>
+              <NavBar />
               <About />
-            </>
+            </div>
           }/>
 
           <Route path="/contact" element={
-            <>
-              <Navbar />
+            <div>
+              <NavBar />
               <Contact />
-            </>
+            </div>
           }/>
 
           <Route path="/team" element={
-            <>
-              <Navbar />
+            <div>
+              <NavBar />
               <Team />
-            </>
+            </div>
           }/>
 
           <Route path="/login" element={<LoginForm />}/>

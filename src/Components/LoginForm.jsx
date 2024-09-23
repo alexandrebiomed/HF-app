@@ -1,4 +1,5 @@
-import { useState, useNavigate } from 'react';
+import { useState } from 'react';
+import {useNavigate} from "react-router-dom";
 import LoginField from './LoginField';
 
 import { FaUserCircle } from "react-icons/fa";
@@ -15,7 +16,7 @@ function LoginForm() {
   const [username, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [error, setError] = useState(false);
   const navigate = useNavigate();
 
   const handleLoginSubmit = async (event) => {
@@ -34,7 +35,11 @@ function LoginForm() {
 
       const result = await res.json();
       if (result.validity){
-        navigate('/content')
+        setError(false);
+        navigate('/content');
+      }
+      else{
+        setError(true)
       }
     }catch(error){
       console.error('Error submitting form:', error);
@@ -47,6 +52,7 @@ function LoginForm() {
         <div className="login-container loginCard">
           <div className="titleContainer">
             <h1 id="login-title">Log in</h1>
+            <h6 className='loginErrorMessageActive'>{error?"Wrong Password or Username ! Try Again":"User logged in successfully!"}</h6>
             <hr/>
           </div>
           <div className="login-container form">
@@ -58,7 +64,7 @@ function LoginForm() {
                   value={username}
                   name='username'
                   id='usernameInput'
-                  onchange={(e)=> setName(e.target.value)}
+                  onChange={(e)=> setName(e.target.value)}
                   icon={<FaUserCircle style={{fontSize:"25px", opacity:"0.8"}}/>}
                   require={true} />
                   <LoginField
@@ -67,7 +73,7 @@ function LoginForm() {
                   value={email}
                   name='email'
                   id='emailInput'
-                  onchange={(e)=> setEmail(e.target.value)}
+                  onChange={(e)=> setEmail(e.target.value)}
                   icon={<IoIosMail style={{fontSize:"25px", opacity:"0.8"}}/>}
                   require={true} />
                   <LoginField
@@ -76,7 +82,7 @@ function LoginForm() {
                   value={password}
                   name='password'
                   id='passwordInput'
-                  onchange={(e)=> setPassword(e.target.value)}
+                  onChange={(e)=> setPassword(e.target.value)}
                   icon={<RiLockPasswordFill style={{fontSize:"25px", opacity:"0.8"}}/>}
                   require={true} />
                   <button type="submit" className="submitButton">Log in</button>

@@ -15,7 +15,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const app = express();
 const port = 3000;
-const saltRounds = 10;
+// const saltRounds = 10;
 
 const {Client} = pg;
 
@@ -50,14 +50,15 @@ app.get('*', (req, res) => {
 
 // Handle form submission
 app.post('/login', async (req, res) => {
-    const { username, email, password } = req.body;
-    try{
+    const { username, email, password } = req.body; // Extract the data sent by the user
+    try{ // Try to connect to user database
       await db.connect();
-      const response = await db.query("SELECT * FROM users WHERE email = $1 AND username = $2", [email,username]);
-      if (response.rowCount===0){
-        res.json({message : "This user does not exist. Try again or Sign up."})
+      const response = await db.query("SELECT * FROM users WHERE email = $1 AND username = $2", [email,username]); // Search user in database
+      if (response.rowCount===0){ // If user does not exist
+        res.json({message : "This user does not exist. Try again or Sign up.", valid:false})
       }else{
-        const {password:storedHashedPassword} = response.rows[0];
+        const {password:storedHashedPassword} = response.rows[0]; 
+        // Compare entered password with stored/real password.
         await bcrypt.compare(password, storedHashedPassword, (err,validity) => {
           if(err){
             console.log("Error while validating password : ", err);

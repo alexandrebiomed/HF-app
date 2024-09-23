@@ -18,7 +18,7 @@ function LoginField(props) {
                     id={props.id}
                     name={props.name}
                     value={props.value}
-                    onChange={props.onchange}
+                    onChange={props.onChange}
                     required={props.require} 
                 />
             </div>
@@ -33,7 +33,7 @@ LoginField.propTypes = {
     id:PropTypes.string.isRequired,
     name:PropTypes.string.isRequired,
     value:PropTypes.string.isRequired,
-    onchange:PropTypes.func.isRequired,
+    onChange:PropTypes.func.isRequired,
     require:PropTypes.bool.isRequired,
   };
     
