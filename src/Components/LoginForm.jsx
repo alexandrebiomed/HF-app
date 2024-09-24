@@ -52,7 +52,7 @@ function LoginForm() {
         <div className="login-container loginCard">
           <div className="titleContainer">
             <h1 id="login-title">Log in</h1>
-            <h6 className='loginErrorMessageActive'>{error?"Wrong Password or Username ! Try Again":"User logged in successfully!"}</h6>
+            {error && <h6 className='loginErrorMessageActive'>{error?"Wrong Password or Username ! Try Again":"User logged in successfully!"}</h6>}
             <hr/>
           </div>
           <div className="login-container form">
