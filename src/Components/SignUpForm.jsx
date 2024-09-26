@@ -9,14 +9,17 @@ import { FcGoogle } from "react-icons/fc";
 import { FaFacebook } from "react-icons/fa";
 import { FaGithub } from "react-icons/fa";
 
+import axios from 'axios';
+
 
 import "../styles/SignUp&LoginForm.scss";
 
-function SignUpForm() {
+function LoginForm() {
   const [username, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(false);
+  const [resultMessage, setResultMessage] = useState('');
   const navigate = useNavigate();
 
   const handleLoginSubmit = async (event) => {
@@ -25,16 +28,16 @@ function SignUpForm() {
     const formData = { username:username, email:email, password:password };
 
     try{
-      const res = await fetch('http://localhost:3000/signup', {
-        method:'POST',
+      const response = await axios.post('http://localhost:3000/signup', formData, {
         headers: {
-          'Content-Type':'application/json',
+            'Content-Type': 'application/json',
         },
-        body:JSON.stringify(formData)
-      })
+        withCredentials: true // Include this if you're working with cookies or sessions
+      });
 
-      const result = await res.json();
-      if (result.validity){
+      const result = response.data; // Axios automatically parses JSON
+      setResultMessage(result.message || '');
+      if (result.valid){
         setError(false);
         navigate('/content');
       }
@@ -42,49 +45,68 @@ function SignUpForm() {
         setError(true)
       }
     }catch(error){
-      console.error('Error submitting form:', error);
+      console.error('Error submitting form:', error.response ? error.response.data : error.message);
     }
     };
+
+  const loginFields = [
+    {
+        fieldName: "username",
+        type: "text",
+        value: username,
+        name: 'username',
+        id: 'usernameInput',
+        onChange: (e) => setName(e.target.value),
+        icon: <FaUserCircle style={{ fontSize: "25px", opacity: "0.8" }} />,
+        require: true
+    },
+    {
+        fieldName: "email",
+        type: "email",
+        value: email,
+        name: 'email',
+        id: 'emailInput',
+        onChange: (e) => setEmail(e.target.value),
+        icon: <IoIosMail style={{ fontSize: "25px", opacity: "0.8" }} />,
+        require: true
+    },
+    {
+        fieldName: "password",
+        type: "password",
+        value: password,
+        name: 'password',
+        id: 'passwordInput',
+        onChange: (e) => setPassword(e.target.value),
+        icon: <RiLockPasswordFill style={{ fontSize: "25px", opacity: "0.8" }} />,
+        require: true
+    }
+];
 
   return (
     <div className="page">
       <div className="login-container loginPage">
         <div className="login-container loginCard">
           <div className="titleContainer">
-            <h1 id="login-title">Sign Up</h1>
-            {error && <h6 className='loginErrorMessageActive'>Wrong Password or Username ! Try Again</h6>}
+            <h1 id="login-title">Log in</h1>
+            {error && <h6 className='loginErrorMessageActive'>{resultMessage}</h6>}
             <hr/>
           </div>
           <div className="login-container form">
             <form onSubmit={handleLoginSubmit}>
               <div className="login-container userInputs">
-                  <LoginField
-                  fieldName="username"
-                  type="text"
-                  value={username}
-                  name='username'
-                  id='usernameInput'
-                  onChange={(e)=> setName(e.target.value)}
-                  icon={<FaUserCircle style={{fontSize:"25px", opacity:"0.8"}}/>}
-                  require={true} />
-                  <LoginField
-                  fieldName="email"
-                  type="email"
-                  value={email}
-                  name='email'
-                  id='emailInput'
-                  onChange={(e)=> setEmail(e.target.value)}
-                  icon={<IoIosMail style={{fontSize:"25px", opacity:"0.8"}}/>}
-                  require={true} />
-                  <LoginField
-                  fieldName="password"
-                  type="password"
-                  value={password}
-                  name='password'
-                  id='passwordInput'
-                  onChange={(e)=> setPassword(e.target.value)}
-                  icon={<RiLockPasswordFill style={{fontSize:"25px", opacity:"0.8"}}/>}
-                  require={true} />
+              {loginFields.map((field, index) => (
+                <LoginField
+                    key={index} // Use a unique key for each element
+                    fieldName={field.fieldName}
+                    type={field.type}
+                    value={field.value}
+                    name={field.name}
+                    id={field.id}
+                    onChange={field.onChange}
+                    icon={field.icon}
+                    require={field.require}
+                />
+              ))}
                   <button type="submit" className="submitButton">Log in</button>
               </div>
             </form>
@@ -96,6 +118,7 @@ function SignUpForm() {
             <hr/>
           </div>
           <div className="login-container signWith">
+            
             <div className="companySign">
               <button id="google-button">
                 <FcGoogle style={{fontSize:"20px"}}/>
@@ -122,4 +145,4 @@ function SignUpForm() {
   );
 }
 
-export default SignUpForm;
+export default LoginForm;

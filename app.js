@@ -112,11 +112,11 @@ app.post('/signup', async (req, res) => {
       }else{
         try{
           const result = await dbUser.query("INSERT INTO users (email, password, username) VALUES (?,?,?)", [username,email,hash])
-          res.status(201).json({ message: 'User created successfully', userId: result.insertId });
+          res.status(201).json({ message: 'User created successfully', userId: result.insertId, valid:true });
           console.log("User successfully added to database");
         }catch(error){
           console.error("Error trying to insert user data into database : ", error);
-          res.status(500).json({ message: 'An error occurred while creating the user.' });
+          res.status(500).json({ message: 'An error occurred while creating the user.', valid:false });
         }
       }
     })

@@ -35,7 +35,7 @@ function LoginForm() {
       });
 
       const result = response.data; // Axios automatically parses JSON
-      if (result.validity){
+      if (result.valid){
         setError(false);
         navigate('/content');
       }
