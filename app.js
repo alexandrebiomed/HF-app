@@ -17,11 +17,9 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const app = express();
 const port = 3000;
-// const saltRounds = 10;
+const saltRounds = 10;
 
-const {Client} = pg;
-
-const dbUser = new Client({
+const dbUser = new pg.Client({
   user: process.env.PG_USER,
   host: process.env.PG_HOST,
   database: process.env.PG_DATABASE,
@@ -32,8 +30,8 @@ const dbUser = new Client({
   
 const corsOptions = {
   origin: (origin, callback) => {
-    // Allow requests with no origin
-    if (!origin || origin.startsWith('http://localhost:8000')) {
+    // Allow requests that come from localhost:8000
+    if (origin.startsWith('http://localhost:8000')) {
         callback(null, true); // Allow the origin
     } else {
         callback(new Error('Not allowed by CORS')); // Reject the origin
@@ -99,19 +97,29 @@ app.post('/signup', async (req, res) => {
   const { username, email, password } = req.body; // Extract the data sent by the user
   let client; 
 
-  try{ // Try to connect to user database
+  try{
+    // Verify if the user does not already exist 
     client = await dbUser.connect();
-    const response = await client.query("SELECT * FROM users WHERE email = $1 AND username = $2", [email,username]); // Search user in database
+    const response = await client.query("SELECT * FROM users WHERE email = $1 OR username = $2", [email,username]); // Search user in database
 
-    if (response.rowCount===0){ // If user does not exist
-      return res.json({message : "This user does not exist. Try again or Sign up.", valid:false})
+    if (response.rowCount>0){ // If user found in database
+      return res.status(409).json({message : "This user already exists. Try again or Log In.", valid:false})
     }
 
-    const {password:storedHashedPassword} = response.rows[0];
-
-    // Compare entered password with stored/real password.
-    const validity = await bcrypt.compare(password, storedHashedPassword)
-    res.json({message : validity?"User Successfully Authenticated":"Wrong password or username, try again.", valid:validity});
+    bcrypt.hash(password, saltRounds, async (err, hash) => {
+      if(err){
+        console.error("Error Trying to hash password :", err);
+      }else{
+        try{
+          const result = await dbUser.query("INSERT INTO users (email, password, username) VALUES (?,?,?)", [username,email,hash])
+          res.status(201).json({ message: 'User created successfully', userId: result.insertId });
+          console.log("User successfully added to database");
+        }catch(error){
+          console.error("Error trying to insert user data into database : ", error);
+          res.status(500).json({ message: 'An error occurred while creating the user.' });
+        }
+      }
+    })
 
   }catch(error){
         console.log('Error trying to acces database : ', error);
