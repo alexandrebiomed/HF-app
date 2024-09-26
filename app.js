@@ -8,6 +8,7 @@ import pg from "pg";
 import dotenv from 'dotenv';
 import session from 'express-session';
 import cors from 'cors';
+import passport from 'passport';
 
 // Load environment variables from .env file
 dotenv.config();
@@ -48,6 +49,8 @@ app.use(session({
 }));
 app.use(morgan("tiny"));
 app.use(cors(corsOptions));
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Serve React app
 app.get('*', (req, res) => {
@@ -112,6 +115,28 @@ app.post('/signup', async (req, res) => {
       }
     }
 })
+
+
+// Serialize and deserialize user
+passport.serializeUser((user, done) => {
+  done(null, user.id);
+});
+
+passport.deserializeUser((id, done) => {
+  // Fetch user by ID from the database
+  // done(null, user);
+});
+
+// Local strategy for username/password
+passport.use(new LocalStrategy((username, password, done) => {
+  // Authenticate user against the database
+  // done(null, user) if successful, or done(null, false) if failed
+}));
+
+
+
+
+
 
 
 app.listen(port, () => {
