@@ -67,11 +67,14 @@ app.get('*', (req, res) => {
   });
 
 // Handle form submission
-app.post('/login', async (req, res) => {
-    console.log("TRYING TO LOG IN");
-    const { username, email, password } = req.body; // Extract the data sent by the user
-    
-  })
+app.post('/login', passport.authenticate("local", {
+  successRedirect : "/content",
+  failureRedirect : "/login",
+}))
+
+app.get('/content', (req, res) => {
+  if(!req.isAuthenticated())
+})
 
 app.post('/signup', async (req, res) => {
   console.log("TRYING TO SIGN UP");
@@ -114,14 +117,30 @@ app.post('/signup', async (req, res) => {
 
 
 // Serialize and deserialize user
-//passport.serializeUser((user, done) => {
-//  done(null, user.id);
-//});
+passport.serializeUser((user, done) => {
+  done(null, user.id);
+});
 
-//passport.deserializeUser((id, done) => {
-  // Fetch user by ID from the database
-  // done(null, user);
-//});
+passport.deserializeUser(async (id, done) => {
+  let client;
+  try{ // Try to connect to user database
+    client = await dbUser.connect();
+    const response = await client.query("SELECT * FROM users WHERE id = $1", [id]); // Search user in database
+
+    if (response.rowCount===0){ // If user does not exist
+      return done(null, false, {message: "Could not retrieve the user object using the stored ID."})
+    }
+   done(null, response.rows[0]);
+
+  } catch(error){
+      return done(error)
+
+  } finally{
+      if (client){
+        client.release();
+    }
+  }
+});
 
 // Local strategy for username/password
 passport.use(new LocalStrategy(async (username, password, done) => {
