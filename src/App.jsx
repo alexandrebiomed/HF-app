@@ -4,6 +4,7 @@ import About from './Components/About';
 import Contact from './Components/Contact';
 import Team from './Components/Team';
 import LoginForm from './Components/LoginForm';
+import SignUpForm from './Components/SignUpForm';
 import Content from './Components/Content';
 import NavBar from './Components/NavBar';
 
@@ -43,6 +44,8 @@ function App() {
           }/>
 
           <Route path="/login" element={<LoginForm />}/>
+
+          <Route path="/signup" element={<SignUpForm />}/>
 
           <Route path="/content" element={<Content />}/>
 

@@ -9,6 +9,11 @@ function NavBar() {
         navigate('/login');
     }
 
+    const signupRedirect = (event) => {
+        event.preventDefault();
+        navigate('/signup');
+    }
+
     return (
       <>
         <div className="navbar container">
@@ -24,12 +29,8 @@ function NavBar() {
                 <div id="Me"><a href="/team">The Team</a></div>
             </div>
                 <div className="loggers">
-                    <form onSubmit={loginRedirect}>
-                        <button className="login"  type="submit">Log In</button>
-                    </form>
-                    <form>
-                        <button className="signup" type="submit">Sign Up</button>
-                    </form>
+                    <button className="login" onClick={loginRedirect} type="submit">Log In</button>
+                    <button className="signup" onClick={signupRedirect} type="submit">Sign Up</button>
                 </div>
         </div>
       </>
