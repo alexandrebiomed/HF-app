@@ -9,6 +9,7 @@ import dotenv from 'dotenv';
 import session from 'express-session';
 import cors from 'cors';
 import passport from 'passport';
+import {Strategy} from 'passport-local';
 
 // Load environment variables from .env file
 dotenv.config();
@@ -51,7 +52,9 @@ app.use(express.json());
 app.use(session({
   secret: process.env.SESSION_SECRET_KEY, // Change this to a secure random string
   resave: false,
-  saveUninitialized: true
+  saveUninitialized: true,
+  cookie: { maxAge: 10 * 1000, // Session expires after 10 seconds
+            secure: false } // Set to true if using HTTPS
 }));
 app.use(morgan("tiny"));
 app.use(cors(corsOptions));
