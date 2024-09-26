@@ -9,7 +9,7 @@ import dotenv from 'dotenv';
 import session from 'express-session';
 import cors from 'cors';
 import passport from 'passport';
-import {Strategy} from 'passport-local';
+import {LocalStrategy} from 'passport-local';
 
 // Load environment variables from .env file
 dotenv.config();
@@ -70,30 +70,7 @@ app.get('*', (req, res) => {
 app.post('/login', async (req, res) => {
     console.log("TRYING TO LOG IN");
     const { username, email, password } = req.body; // Extract the data sent by the user
-    let client; 
-
-    try{ // Try to connect to user database
-      client = await dbUser.connect();
-      const response = await client.query("SELECT * FROM users WHERE email = $1 AND username = $2", [email,username]); // Search user in database
-
-      if (response.rowCount===0){ // If user does not exist
-        return res.status(404).json({message : "This user does not exist. Try again or Sign up.", valid:false})
-      }
-
-      const {password:storedHashedPassword} = response.rows[0];
-
-      // Compare entered password with stored/real password.
-      const validity = await bcrypt.compare(password, storedHashedPassword)
-      res.status(200).json({message : validity?"User Successfully Authenticated":"Wrong password or username, try again.", valid:validity});
-
-    }catch(error){
-          console.log('Error trying to acces database : ', error);
-          res.status(500).json({ message: "Internal server error. Please try again later.", valid: false });
-    }finally {
-      if (client) {
-        client.release(); // Ensure the client is released back to the pool
-      }
-    }
+    
   })
 
 app.post('/signup', async (req, res) => {
@@ -147,10 +124,34 @@ app.post('/signup', async (req, res) => {
 //});
 
 // Local strategy for username/password
-//passport.use(new LocalStrategy((username, password, done) => {
-  // Authenticate user against the database
-  // done(null, user) if successful, or done(null, false) if failed
-//}));
+passport.use(new LocalStrategy(async (username, password, done) => {
+  let client; 
+
+    try{ // Try to connect to user database
+      client = await dbUser.connect();
+      const response = await client.query("SELECT * FROM users WHERE username = $1", [username]); // Search user in database
+
+      if (response.rowCount===0){ // If user does not exist
+        return done(null, false, {message: "This user does not exist. Try again or Sign up."})
+      }
+
+      // Compare entered password with stored/real password.
+      const user = response.rows[0];
+      const validity = await bcrypt.compare(password, user.password); // Assume 'password' is the hashed password field
+
+      const userObjectToReturn = {id : user.id};
+
+      return validity ? done(null, userObjectToReturn, {message : "User Successfully Authenticated", valid:validity }) : done(null, userID, {message : "Wrong password or username, try again.", valid:validity }) 
+    
+    }catch(error){
+          console.log('Error trying to acces database : ', error);
+          return done(error)
+    }finally {
+      if (client) {
+        client.release(); // Ensure the client is released back to the pool
+      }
+    }
+}));
 
 
 
