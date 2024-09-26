@@ -87,7 +87,7 @@ function LoginForm() {
       <div className="login-container loginPage">
         <div className="login-container loginCard">
           <div className="titleContainer">
-            <h1 id="login-title">Log in</h1>
+            <h1 id="login-title">Sign Up</h1>
             {error && <h6 className='loginErrorMessageActive'>{resultMessage}</h6>}
             <hr/>
           </div>

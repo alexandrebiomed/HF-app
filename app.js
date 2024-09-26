@@ -19,7 +19,8 @@ const app = express();
 const port = 3000;
 const saltRounds = 10;
 
-const dbUser = new pg.Client({
+const {Pool} = pg;
+const dbUser = new Pool({
   user: process.env.PG_USER,
   host: process.env.PG_HOST,
   database: process.env.PG_DATABASE,
@@ -31,7 +32,7 @@ const dbUser = new pg.Client({
 const corsOptions = {
   origin: (origin, callback) => {
     // Allow requests that come from localhost:8000
-    if (origin.startsWith('http://localhost:8000')) {
+    if (origin && origin.startsWith('http://localhost:8000')) {
         callback(null, true); // Allow the origin
     } else {
         callback(new Error('Not allowed by CORS')); // Reject the origin
@@ -73,23 +74,23 @@ app.post('/login', async (req, res) => {
       const response = await client.query("SELECT * FROM users WHERE email = $1 AND username = $2", [email,username]); // Search user in database
 
       if (response.rowCount===0){ // If user does not exist
-        return res.json({message : "This user does not exist. Try again or Sign up.", valid:false})
+        return res.status(404).json({message : "This user does not exist. Try again or Sign up.", valid:false})
       }
 
       const {password:storedHashedPassword} = response.rows[0];
 
       // Compare entered password with stored/real password.
       const validity = await bcrypt.compare(password, storedHashedPassword)
-      res.json({message : validity?"User Successfully Authenticated":"Wrong password or username, try again.", valid:validity});
+      res.status(200).json({message : validity?"User Successfully Authenticated":"Wrong password or username, try again.", valid:validity});
 
     }catch(error){
           console.log('Error trying to acces database : ', error);
           res.status(500).json({ message: "Internal server error. Please try again later.", valid: false });
-    } finally {
-        if (client) {
-            client.release(); // Ensure the client is released back to the pool
-        }
+    }finally {
+      if (client) {
+        client.release(); // Ensure the client is released back to the pool
       }
+    }
   })
 
 app.post('/signup', async (req, res) => {
@@ -111,7 +112,7 @@ app.post('/signup', async (req, res) => {
         console.error("Error Trying to hash password :", err);
       }else{
         try{
-          const result = await dbUser.query("INSERT INTO users (email, password, username) VALUES (?,?,?)", [username,email,hash])
+          const result = await dbUser.query("INSERT INTO users (email, password, username) VALUES ($1,$2,$3)", [email, hash, username])
           res.status(201).json({ message: 'User created successfully', userId: result.insertId, valid:true });
           console.log("User successfully added to database");
         }catch(error){
@@ -124,29 +125,29 @@ app.post('/signup', async (req, res) => {
   }catch(error){
         console.log('Error trying to acces database : ', error);
         res.status(500).json({ message: "Internal server error. Please try again later.", valid: false });
-  } finally {
-      if (client) {
-          client.release(); // Ensure the client is released back to the pool
-      }
+  }finally{
+    if (client){
+      client.release();
     }
+  }
 })
 
 
 // Serialize and deserialize user
-passport.serializeUser((user, done) => {
-  done(null, user.id);
-});
+//passport.serializeUser((user, done) => {
+//  done(null, user.id);
+//});
 
-passport.deserializeUser((id, done) => {
+//passport.deserializeUser((id, done) => {
   // Fetch user by ID from the database
   // done(null, user);
-});
+//});
 
 // Local strategy for username/password
-passport.use(new LocalStrategy((username, password, done) => {
+//passport.use(new LocalStrategy((username, password, done) => {
   // Authenticate user against the database
   // done(null, user) if successful, or done(null, false) if failed
-}));
+//}));
 
 
 
