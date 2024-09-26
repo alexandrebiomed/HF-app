@@ -9,6 +9,8 @@ import { FcGoogle } from "react-icons/fc";
 import { FaFacebook } from "react-icons/fa";
 import { FaGithub } from "react-icons/fa";
 
+import axios from 'axios';
+
 
 import "../styles/SignUp&LoginForm.scss";
 
@@ -25,15 +27,14 @@ function LoginForm() {
     const formData = { username:username, email:email, password:password };
 
     try{
-      const res = await fetch('http://localhost:3000/login', {
-        method:'POST',
+      const response = await axios.post('http://localhost:3000/login', formData, {
         headers: {
-          'Content-Type':'application/json',
+            'Content-Type': 'application/json',
         },
-        body:JSON.stringify(formData)
-      })
+        withCredentials: true // Include this if you're working with cookies or sessions
+      });
 
-      const result = await res.json();
+      const result = response.data; // Axios automatically parses JSON
       if (result.validity){
         setError(false);
         navigate('/content');
@@ -42,7 +43,7 @@ function LoginForm() {
         setError(true)
       }
     }catch(error){
-      console.error('Error submitting form:', error);
+      console.error('Error submitting form:', error.response ? error.response.data : error.message);
     }
     };
 
@@ -115,6 +116,7 @@ function LoginForm() {
             <hr/>
           </div>
           <div className="login-container signWith">
+            
             <div className="companySign">
               <button id="google-button">
                 <FcGoogle style={{fontSize:"20px"}}/>
