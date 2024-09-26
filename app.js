@@ -31,7 +31,14 @@ const dbUser = new Client({
 
   
 const corsOptions = {
-  origin: 'http://localhost:8000',
+  origin: (origin, callback) => {
+    // Allow requests with no origin
+    if (!origin || origin.startsWith('http://localhost:8000')) {
+        callback(null, true); // Allow the origin
+    } else {
+        callback(new Error('Not allowed by CORS')); // Reject the origin
+    }
+},
   methods: ['GET', 'POST'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true,
