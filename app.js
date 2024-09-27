@@ -164,7 +164,7 @@ passport.use(new LocalStrategy(async (username, password, done) => {
 
       const userObjectToReturn = {id : user.id};
 
-      return validity ? done(null, userObjectToReturn, {message : "User Successfully Authenticated", valid:validity }) : done(null, userID, {message : "Wrong password or username, try again.", valid:validity }) 
+      return validity ? done(null, userObjectToReturn, {message : "User Successfully Authenticated", valid:validity }) : done(null, false, {message : "Wrong password or username, try again.", valid:validity }) 
     
     }catch(error){
           console.log('Error trying to acces database : ', error);
