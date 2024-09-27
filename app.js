@@ -72,9 +72,13 @@ app.post('/login', passport.authenticate("local", {
   failureRedirect : "/login",
 }))
 
-app.get('/content', (req, res) => {
-  if(!req.isAuthenticated())
-})
+app.get('auth/status', (req, res) => {
+  if (req.isAuthenticated()) {
+      res.json({ authenticated: true, user: req.user });
+  } else {
+      res.json({ authenticated: false });
+  }
+});
 
 app.post('/signup', async (req, res) => {
   console.log("TRYING TO SIGN UP");
