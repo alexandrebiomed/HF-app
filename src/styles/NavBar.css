@@ -84,6 +84,11 @@ button {
     text-decoration: none;
     transition: color 0.5s ease;
   }
+
+  .navigators .active a{
+      font-weight: bold; /* Make active link bold */
+      color: #414141; /* Change color to highlight */
+  }
   
   .loggers{
     display:flex;
