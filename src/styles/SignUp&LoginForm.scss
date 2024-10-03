@@ -7,39 +7,55 @@ hr{
     margin:0px;
 }
 
-.loginErrorMessageActive{
-    display:none;
-    color: red;
+.loginErrorMessageContainer{
+    display: flex;
+    position: relative;
+    left:20px;
+    margin-top: 5px;
+    justify-content: space-around;
+    color: rgb(255, 0, 0);
+    font-size: 15px;
+}
+
+.deActivated{
+    display : none;
+}
+
+.background{
+    background-image: url('../../public/images/loginBackground2.png');
+    background-size: cover;  /* Cover the entire element */
+    background-repeat: no-repeat; /* Prevent the image from repeating */
+    background-position: center; /* Center the image */
+    height: 100%; /* Full height */
+    width: 100%; /* Full width */
+    position: absolute; /* Position absolutely */
+    top: 0;
+    left: 0;
+    z-index: -1; /* Send to the back */
+    filter: blur(0.4vh); /* Apply blur effect */
 }
 
 .page{
-    background-color: rgba(255, 243, 219, 0.514);
     display: flex;
     justify-content: center;
-    align-items: center;
-    height:100%;
+    height:100vh;
     
     .loginPage{
-        background-color: rgba(255, 229, 229, 0.356);
+        background-color: rgb(0,0,0,0);
         display: flex;
         flex-direction: row;
-        justify-content: center;
         align-items: center;
-        font-size: 2em;
+        font-size: 2.2em;
         height: 100vh;
-        width: 25em;
 
         .loginCard {
             display: flex;
             flex-direction: column;
             justify-content: flex-start;
-            background-color: rgba(202, 196, 255, 0.493);
-            background: linear-gradient(45deg, #ffd8cf, #bf60ff86); /* Gradient at a 45-degree angle */
-            padding:25px;
+            background: linear-gradient(-90deg, #ffffff 50%, #ffffff ); /* Gradient at a 45-degree angle */
+            padding: 10px;
             border-radius: 15px;
-            width: 25em;
-            box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
-            gap:10px;
+            
             
             .titleContainer{
                 display: flex;
@@ -47,15 +63,13 @@ hr{
                 align-items: center;
                 
                 #login-title{
-                    color:white;
+                    color:rgb(50, 50, 50);
                     text-align: center;
-                    font-family: "Nunito", sans-serif;
+                    font-family: "Roboto", sans-serif;
                     font-size: 1.5em;
                     text-shadow: none;
                     margin:0px;
                 }
-                
-                
             }
             
         
@@ -72,14 +86,15 @@ hr{
 
                     .submitButton{
                         position:relative;
-                        left: 55px;
+                        left: 50px;
+                        top: 10px;
                         color: white;
                         font-size: 20px;
                         font-weight: 700;
                         font-family: "Nunito", sans-serif;
                         width: 350px;
                         height: 35px;
-                        margin-top: 20px;
+                        margin-top: 5px;
                         background-color: rgba(0, 85, 232, 0.555);
                         border-radius: 2em;
                         border-color: rgba(255, 255, 255, 0.177);
@@ -119,7 +134,7 @@ hr{
                 flex-direction: row;
                 align-items: center;
                 #or{
-                    color:white;
+                    color:rgb(0, 0, 0);
                     text-align: center;
                     font-family: "Nunito", sans-serif;
                     font-size: 0.8em;

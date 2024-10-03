@@ -1,13 +1,12 @@
 .home {
-  background-color: rgba(255, 230, 210, 0.63);
+  background: linear-gradient(0deg, rgba(123, 0, 255, 0.104), rgb(221, 252, 255),rgba(208, 250, 255, 0.194) 95%);
   display: grid;
   justify-content: center; // Horizontally centers the container
   align-items: center;
+  border-radius: 20px;
 
   .home-container {
-    margin-left: 10px;
-    margin-right: 10px;
-    max-width: 1500px;
+    max-width: 1300px;
     min-width: 1000px;
   }
 
@@ -15,25 +14,32 @@
     .home-container {
       &.section1 {
         display: flex;
-        justify-content: flex-start;
+        justify-content: space-between;
         align-items: center;
+        border-radius: 5px;
         margin-top: 10px;
 
         .text {
-          margin-left: 50px;
+          margin-left: 25px;
           flex: 2;
 
+          div{
+            background: linear-gradient(180deg, rgba(0,0,0,0) 90%, rgb(255, 220, 116));
+            border-radius: 50% 10%;
+          }
+
           h1 {
-            position: relative;
-            top: 20px;
             text-decoration: none;
-            color: black;
+            color: rgb(0, 0, 0);
             text-shadow: 3px 3px 0px white;
             font-size: 30px;
             font-family: "Playwrite BE WAL", cursive;
           }
 
           h2, h3, h4, h5, h6 {
+            color : rgb(96, 108, 93);
+            position: relative;
+            top : 5px;
             font-family: "Playwrite BE WAL", cursive;
             font-weight: 500;
             font-style: normal;
@@ -42,21 +48,31 @@
           p {
             text-align: justify;
             line-height: 25px;
-            color: rgb(125, 102, 81);
+            color: rgb(0, 0, 0);
             font-family: "Roboto", sans-serif;
-            font-size: 20px;
+            font-size: 1.3em;
             font-weight: 300;
+            max-width: 90%;
           }
         }
 
         .image {
           flex: 1;
+          perspective: 35em; /* Creates a perspective for the 3D effect */
 
           #imageSection1 {
-            width: 550px;
+            width: 400px;
             height: auto;
-            border-radius: 50%;
+            border-radius: 20%;
+            box-shadow: 3px 3px 10px rgb(255, 0, 208);
+            margin : 10px 50px 10px 0px;
+            transition: transform 1s; /* Smooth transition for the transformation */
+            transform-style: preserve-3d; /* Preserve 3D transformations */
           }
+        }
+
+        .image:hover #imageSection1{
+          transform: rotateY(360deg); /* Rotate on the y-axis on hover */
         }
       }
 
@@ -71,9 +87,12 @@
           margin-left: 65px;
           flex: 2;
 
+          div{
+            background: linear-gradient(180deg, rgba(0, 0, 0, 0) 90%, rgb(255, 220, 116));
+            border-radius: 50% 10%;
+          }
+
           h1 {
-            position: relative;
-            top: 20px;
             text-decoration: none;
             color: black;
             text-shadow: 3px 3px 0px white;
@@ -82,6 +101,9 @@
           }
 
           h2, h3, h4, h5, h6 {
+            color : rgb(96, 108, 93);
+            position: relative;
+            top : 5px;
             font-family: "Playwrite BE WAL", cursive;
             font-weight: 500;
             font-style: normal;
@@ -90,23 +112,33 @@
           p {
             text-align: justify;
             line-height: 25px;
-            color: rgb(125, 102, 81);
+            color: rgb(0, 0, 0);
             font-family: "Roboto", sans-serif;
-            font-size: 20px;
+            font-size: 1.3em;
             font-weight: 300;
+            max-width: 95%;
           }
         }
 
         .image {
           flex: 1;
+          perspective: 35em;
 
           #imageSection2 {
             width: 400px;
             height: auto;
+            border-radius: 20%;
+            box-shadow: -3px 3px 10px rgb(38, 0, 255);
             margin-left: 40px;
-            min-width: 350px;
+            transition: transform 1s; /* Smooth transition for the transformation */
+            transform-style: preserve-3d; /* Preserve 3D transformations */                     
           }
         }
+
+        .image:hover #imageSection2{
+          transform: rotateY(360deg); /* Rotate on the y-axis on hover */
+        }
+
       }
 
       &.section3 {
@@ -118,9 +150,12 @@
           margin-left: 50px;
           flex: 2;
 
+          div{
+            background: linear-gradient(180deg, rgba(0, 0, 0, 0) 90%, rgb(255, 220, 116));
+            border-radius: 50% 10%;
+          }
+
           h1 {
-            position: relative;
-            top: 20px;
             text-decoration: none;
             color: black;
             text-shadow: 3px 3px 0px white;
@@ -129,6 +164,9 @@
           }
 
           h2, h3, h4, h5, h6 {
+            color : rgb(96, 108, 93);
+            position: relative;
+            top : 5px;
             font-family: "Playwrite BE WAL", cursive;
             font-weight: 500;
             font-style: normal;
@@ -137,23 +175,33 @@
           p {
             text-align: justify;
             line-height: 25px;
-            color: rgb(125, 102, 81);
+            color: rgb(0, 0, 0);
             font-family: "Roboto", sans-serif;
-            font-size: 20px;
+            font-size: 1.3em;
             font-weight: 300;
+            max-width: 90%;
           }
         }
 
         .image {
           flex: 1;
+          perspective: 35em;
 
           #imageSection3 {
-            width: 350px;
+            width: 400px;
             height: auto;
-            border-radius: 20% 20%;
-            margin-left: 40px;
+            border-radius: 20%;
+            box-shadow: 3px 3px 10px rgb(255, 0, 208);
+            margin : 10px 50px 10px 0px;
+            transition: transform 1s; /* Smooth transition for the transformation */
+            transform-style: preserve-3d; /* Preserve 3D transformations */
           }
         }
+
+        .image:hover #imageSection3{
+          transform: rotateY(360deg); /* Rotate on the y-axis on hover */
+        }
+
       }
     }
   }
