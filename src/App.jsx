@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, Redirect } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './Components/Home';
 import About from './Components/About';
 import Contact from './Components/Contact';
@@ -8,26 +8,10 @@ import SignUpForm from './Components/SignUpForm';
 import Content from './Components/Content';
 import NavBar from './Components/NavBar';
 
-import {useState, useEffect} from "react";
-import axios from 'axios';
+import AuthProvider from './Context/AuthContext';
+import ProtectedRoute from './Components/ProtectedRoute';
 
 function App() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [user, setUser] = useState(null);
-
-   // Check authentication status on component mount
-   useEffect(() => {
-    const checkAuth = async () => {
-        try {
-            const response = await axios.get('/auth/status');
-            setIsAuthenticated(response.data.authenticated);
-            setUser(response.data.user);
-        } catch (error) {
-            console.error('Error checking authentication status:', error);
-        }
-    };
-    checkAuth();
-}, []);
 
   return (
     <Router>
@@ -35,7 +19,7 @@ function App() {
         <Routes>
          
           <Route path="/" element={
-            <div style={{display:"flex",flexDirection:"column",justifyContent:"Center",alignItems:"center"}}>
+            <div style={{display:"flex",flexDirection:"column",justifyContent:"center",alignItems:"center"}}>
               <NavBar />
               <Home />
             </div>
@@ -62,13 +46,23 @@ function App() {
             </div>
           }/>
 
-          <Route path="/login" element={<LoginForm />}/>
+            <Route path="/login" element={
+              <AuthProvider>
+                <LoginForm />
+              </AuthProvider>}
+            />
 
-          <Route path="/signup" element={<SignUpForm />}/>
+            <Route path="/signup" element={
+              <AuthProvider>
+                <SignUpForm />
+              </AuthProvider>}
+            />
 
-          <Route path="/content">
-            {isAuthenticated ? <Content user={user}/> : <Redirect to="/login" /> }
-          </Route>
+            <Route path="/content" element={
+              <AuthProvider>
+                <ProtectedRoute  element = {<Content />} />
+              </AuthProvider>}
+            />
 
         </Routes>
       </div>

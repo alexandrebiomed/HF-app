@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {useNavigate} from "react-router-dom";
 import LoginField from './LoginField';
 
@@ -9,43 +9,33 @@ import { FcGoogle } from "react-icons/fc";
 import { FaFacebook } from "react-icons/fa";
 import { FaGithub } from "react-icons/fa";
 
-import axios from 'axios';
-
+import useAuth from "../Context/useAuth";
 
 import "../styles/SignUp&LoginForm.scss";
 
 function LoginForm() {
+  
+  const navigate = useNavigate();
+
+  const {login, loginError, loginMessage, isAuthenticated} = useAuth();
+
   const [username, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState(false);
-  const navigate = useNavigate();
 
-  const handleLoginSubmit = async (event) => {
-    event.preventDefault();
-
-    const formData = { username:username, email:email, password:password };
-
-    try{
-      const response = await axios.post('http://localhost:3000/login', formData, {
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        withCredentials: true // Include this if you're working with cookies or sessions
-      });
-
-      const result = response.data; // Axios automatically parses JSON
-      if (result.valid){
-        setError(false);
+  useEffect(() => {
+    if (isAuthenticated) {
+        console.log("User is authenticated");
         navigate('/content');
-      }
-      else{
-        setError(true)
-      }
-    }catch(error){
-      console.error('Error submitting form:', error.response ? error.response.data : error.message);
     }
-    };
+// eslint-disable-next-line react-hooks/exhaustive-deps
+}, [isAuthenticated]);
+
+  const handleLoginSubmit = (event) => {
+    event.preventDefault();
+    login(username, password, email);
+  }
+  
 
   const loginFields = [
     {
@@ -82,30 +72,33 @@ function LoginForm() {
 
   return (
     <div className="page">
+      <div className="background"></div>
       <div className="login-container loginPage">
         <div className="login-container loginCard">
           <div className="titleContainer">
             <h1 id="login-title">Log in</h1>
-            {error && <h6 className='loginErrorMessageActive'>Wrong Password or Username ! Try Again</h6>}
             <hr/>
           </div>
           <div className="login-container form">
             <form onSubmit={handleLoginSubmit}>
               <div className="login-container userInputs">
-              {loginFields.map((field, index) => (
-                <LoginField
-                    key={index} // Use a unique key for each element
-                    fieldName={field.fieldName}
-                    type={field.type}
-                    value={field.value}
-                    name={field.name}
-                    id={field.id}
-                    onChange={field.onChange}
-                    icon={field.icon}
-                    require={field.require}
-                />
-              ))}
-                  <button type="submit" className="submitButton">Log in</button>
+                {loginFields.map((field, index) => (
+                  <LoginField
+                      key={index} // Use a unique key for each element
+                      fieldName={field.fieldName}
+                      type={field.type}
+                      value={field.value}
+                      name={field.name}
+                      id={field.id}
+                      onChange={field.onChange}
+                      icon={field.icon}
+                      require={field.require}
+                  />
+                ))}
+                <div className={`loginErrorMessageContainer ${loginError ? '' : 'deActivated'}`}>
+                  {loginMessage}
+                </div>
+                <button type="submit" className="submitButton">Log In</button>
               </div>
             </form>
             <img src="/images/logo2RB.png" alt="image" id="loginImage" />

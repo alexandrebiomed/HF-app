@@ -5,7 +5,7 @@ function Content() {
 
   return (
     <>
-      <p>Hi</p>
+      <p>Hi !</p>
     </>
   )
 }

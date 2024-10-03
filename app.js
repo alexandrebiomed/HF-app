@@ -9,7 +9,7 @@ import dotenv from 'dotenv';
 import session from 'express-session';
 import cors from 'cors';
 import passport from 'passport';
-import {LocalStrategy} from 'passport-local';
+import LocalStrategy from 'passport-local';
 
 // Load environment variables from .env file
 dotenv.config();
@@ -66,11 +66,32 @@ app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'build', 'index.html'));
   });
 
-// Handle form submission
-app.post('/login', passport.authenticate("local", {
-  successRedirect : "/content",
-  failureRedirect : "/login",
-}))
+
+
+app.post('/login', (req, res, next) => {
+
+  passport.authenticate('local', (err, user, info) => {
+ 
+      if (err) {
+        return res.status(500).json({ message: 'Internal server error', valid : false});
+      }
+
+      if (!user){
+        console.log("User does not exist (backend) !");
+        return res.status(401).json({message : 'User Not Found'});
+      }
+      
+      req.logIn(user, (err) => {
+          if (err) {
+            console.error('Login error:', err); // Log the error for debugging
+            return res.status(500).json({ message: 'Could not log in', valid : false});
+          }
+          // Return user and info if login is successful
+          return res.status(200).json({user, info});
+      });
+  })(req, res, next);
+});
+
 
 app.get('auth/status', (req, res) => {
   if (req.isAuthenticated()) {
@@ -81,6 +102,7 @@ app.get('auth/status', (req, res) => {
 });
 
 app.post('/signup', async (req, res) => {
+  //! Maybe we don't need the userId in the res.json() because not used when using axios on the client-side
   console.log("TRYING TO SIGN UP");
   const { username, email, password } = req.body; // Extract the data sent by the user
   let client; 
@@ -96,12 +118,25 @@ app.post('/signup', async (req, res) => {
 
     bcrypt.hash(password, saltRounds, async (err, hash) => {
       if(err){
+        res.status(500).json({ message: 'Could not hash password', valid:false });
         console.error("Error Trying to hash password :", err);
       }else{
         try{
-          const result = await dbUser.query("INSERT INTO users (email, password, username) VALUES ($1,$2,$3)", [email, hash, username])
-          res.status(201).json({ message: 'User created successfully', userId: result.insertId, valid:true });
-          console.log("User successfully added to database");
+          const result = await dbUser.query("INSERT INTO users (email, password, username) VALUES ($1,$2,$3) RETURNING id", [email, hash, username])
+          
+          const newUser = result.rows[0];
+
+          // Log in the user
+          req.login(newUser, (err) => {
+            if (err) {
+              console.error("Error during login:", err);
+              return res.status(500).json({ message: 'Error logging in user.', valid: false });
+            }
+            // Successfully created and logged in
+            res.status(201).json({ message: 'User created successfully', userId: newUser.id, valid: true });
+            console.log("User successfully added to database and logged in");
+          });
+
         }catch(error){
           console.error("Error trying to insert user data into database : ", error);
           res.status(500).json({ message: 'An error occurred while creating the user.', valid:false });
@@ -147,39 +182,47 @@ passport.deserializeUser(async (id, done) => {
 });
 
 // Local strategy for username/password
-passport.use(new LocalStrategy(async (username, password, done) => {
-  let client; 
+passport.use(new LocalStrategy(
+  {
+    // Passport Local Strategy Configuration
+    // key = name of the field in the request body that will be used to find the user.
+    // value = names of the fields that client-side form will use to submit the user's credentials.
+    username: 'username',
+    password: 'password',  // This will be the password
+    passReqToCallback: true,
+},
+async (req, username, password, done) => {
+  
+  let client;
+  
+  console.log("RUNNING LOCAL STRATEGY");
 
-    try{ // Try to connect to user database
-      client = await dbUser.connect();
-      const response = await client.query("SELECT * FROM users WHERE username = $1", [username]); // Search user in database
+  try{ // Try to connect to user database
+    client = await dbUser.connect();
 
-      if (response.rowCount===0){ // If user does not exist
-        return done(null, false, {message: "This user does not exist. Try again or Sign up."})
-      }
-
-      // Compare entered password with stored/real password.
-      const user = response.rows[0];
-      const validity = await bcrypt.compare(password, user.password); // Assume 'password' is the hashed password field
-
-      const userObjectToReturn = {id : user.id};
-
-      return validity ? done(null, userObjectToReturn, {message : "User Successfully Authenticated", valid:validity }) : done(null, false, {message : "Wrong password or username, try again.", valid:validity }) 
+    const email = req.body.email;
+    const users = await client.query("SELECT * FROM users WHERE username = $1 AND email = $2", [username, email]); // Search user in database
     
-    }catch(error){
-          console.log('Error trying to acces database : ', error);
-          return done(error)
-    }finally {
-      if (client) {
-        client.release(); // Ensure the client is released back to the pool
-      }
+    if (users.rowCount===0){ // If user does not exist
+      return done(null, false, {message: "This user does not exist. Try again or Sign up.", valid : false})
     }
+    // Compare entered password with stored/real password.
+    const user = users.rows[0];
+    const isValidPassword = await bcrypt.compare(password, user.password); // Assume 'password' is the hashed password field
+
+    const userObjectToReturn = {id : user.id};
+
+    return isValidPassword ? done(null, userObjectToReturn, {message : "User Successfully Authenticated", valid:isValidPassword }) : done(null, false, {message : "Wrong password or username, try again.", valid:isValidPassword }) 
+  
+  }catch(error){
+        console.error('Error trying to acces database : ', error);
+        return done(null, false, {message: "Internal Server Error", valid : false})
+  }finally {
+    if (client) {
+      client.release(); // Ensure the client is released back to the pool
+    }
+  }
 }));
-
-
-
-
-
 
 
 app.listen(port, () => {
