@@ -1,6 +1,9 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {useNavigate} from "react-router-dom";
+
 import LoginField from './LoginField';
+import GoBackArrow from './GoBackArrow';
+import LoginButton from "./LoginButton";
 
 import { FaUserCircle } from "react-icons/fa";
 import { IoIosMail } from "react-icons/io";
@@ -12,17 +15,37 @@ import { FaGithub } from "react-icons/fa";
 import axios from 'axios';
 
 
-import "../styles/SignUp&LoginForm.scss";
+import useAuth from "../Context/useAuth";
 
-function LoginForm() {
+import "../styles/SignUp&LoginForm.scss";
+import "../styles/GoBackArrow.scss";
+
+function SignUpForm() {
+  
+  const navigate = useNavigate();
+
+  const { isAuthenticated, setIsAuthenticated, setUser} = useAuth();
+
   const [username, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState(false);
-  const [resultMessage, setResultMessage] = useState('');
-  const navigate = useNavigate();
+  const [signUpError, setSignUpError] = useState(false);
+  const [signUpMessage, setSignUpMessage] = useState('');
 
-  const handleLoginSubmit = async (event) => {
+  const loginRedirect = (event) => {
+    event.preventDefault();
+    navigate('/login');
+}
+  
+  useEffect(() => {
+    if (isAuthenticated) {
+        console.log("User is authenticated");
+        navigate('/content');
+    }
+// eslint-disable-next-line react-hooks/exhaustive-deps
+}, [isAuthenticated]);
+
+  const handleSignUpSubmit = async (event) => {
     event.preventDefault();
 
     const formData = { username:username, email:email, password:password };
@@ -35,17 +58,35 @@ function LoginForm() {
         withCredentials: true // Include this if you're working with cookies or sessions
       });
 
-      const result = response.data; // Axios automatically parses JSON
-      setResultMessage(result.message || '');
-      if (result.valid){
-        setError(false);
-        navigate('/content');
+      switch(response.status) {
+        case 201:
+          setIsAuthenticated(true);
+          setUser(response.data.userId);
+          setSignUpError(false);
+          setSignUpMessage(response.data.message);
+          break;
+        case 409:
+          setIsAuthenticated(false);
+          setUser(null);
+          setSignUpError(true);
+          setSignUpMessage(response.data.message);
+          break;
+        case 500:
+          setIsAuthenticated(false);
+          setUser(null);
+          setSignUpError(true);
+          setSignUpMessage(response.data.message);
+          break;
       }
-      else{
-        setError(true)
+    }
+    catch(error){
+      console.error('Error submitting form:', error);
+      // Check if the error has a response from the server
+      if (error.response) {
+          // The request was made and the server responded with a status code outside of the 2xx range
+          setSignUpMessage(error.response.data.message);
       }
-    }catch(error){
-      console.error('Error submitting form:', error.response ? error.response.data : error.message);
+      setSignUpError(true);
     }
     };
 
@@ -82,18 +123,20 @@ function LoginForm() {
     }
 ];
 
-  return (
-    <div className="page">
-      <div className="login-container loginPage">
-        <div className="login-container loginCard">
-          <div className="titleContainer">
-            <h1 id="login-title">Sign Up</h1>
-            {error && <h6 className='loginErrorMessageActive'>{resultMessage}</h6>}
-            <hr/>
-          </div>
-          <div className="login-container form">
-            <form onSubmit={handleLoginSubmit}>
-              <div className="login-container userInputs">
+return (
+  <div className="page">
+    <GoBackArrow />
+    <div style={{display: "flex", position : "absolute", top : "30px", left : "90%"}}><LoginButton buttontext='Log In' onclick={loginRedirect}/></div>
+    <div className="background"></div>
+    <div className="login-container loginPage">
+      <div className="login-container loginCard">
+        <div className="titleContainer">
+          <h1 id="login-title">Sign Up</h1>
+          <hr/>
+        </div>
+        <div className="login-container form">
+          <form onSubmit={handleSignUpSubmit}>
+            <div className="login-container userInputs">
               {loginFields.map((field, index) => (
                 <LoginField
                     key={index} // Use a unique key for each element
@@ -107,42 +150,45 @@ function LoginForm() {
                     require={field.require}
                 />
               ))}
-                  <button type="submit" className="submitButton">Log in</button>
+              <div className={`loginErrorMessageContainer ${signUpError ? '' : 'deActivated'}`}>
+                {signUpMessage}
               </div>
-            </form>
-            <img src="/images/logo2RB.png" alt="image" id="loginImage" />
+              <button type="submit" className="submitButton">Sign Up</button>
+            </div>
+          </form>
+          <img src="/images/logo2RB.png" alt="image" id="loginImage" />
+        </div>
+        <div className="or-separation">
+          <hr/>
+            <h1 id="or">or</h1>
+          <hr/>
+        </div>
+        <div className="login-container signWith">
+          
+          <div className="companySign">
+            <button id="google-button">
+              <FcGoogle style={{fontSize:"20px"}}/>
+              <span>Sign in with Google</span>
+            </button>
           </div>
-          <div className="or-separation">
-            <hr/>
-              <h1 id="or">or</h1>
-            <hr/>
+          <div className="companySign">
+            <button id="facebook-button">
+              <FaFacebook style={{color:"#0866ff",fontSize:"20px"}}/>
+              <span>Sign in with Facebook</span>
+            </button>
           </div>
-          <div className="login-container signWith">
-            
-            <div className="companySign">
-              <button id="google-button">
-                <FcGoogle style={{fontSize:"20px"}}/>
-                <span>Sign in with Google</span>
-              </button>
-            </div>
-            <div className="companySign">
-              <button id="facebook-button">
-                <FaFacebook style={{color:"#0866ff",fontSize:"20px"}}/>
-                <span>Sign in with Facebook</span>
-              </button>
-            </div>
-            <div className="companySign">
-              <button id="github-button">
-                <FaGithub style={{color:"black",fontSize:"20px"}}/>
-                <span>Sign in with Github</span>
-              </button>
-            </div>
+          <div className="companySign">
+            <button id="github-button">
+              <FaGithub style={{color:"black",fontSize:"20px"}}/>
+              <span>Sign in with Github</span>
+            </button>
           </div>
         </div>
       </div>
     </div>
-    
-  );
+  </div>
+  
+);
 }
 
-export default LoginForm;
+export default SignUpForm;

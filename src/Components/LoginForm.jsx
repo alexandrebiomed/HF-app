@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react';
 import {useNavigate} from "react-router-dom";
+
 import LoginField from './LoginField';
+import GoBackArrow from './GoBackArrow';
+import SignUpButton from "./SignUpButton";
 
 import { FaUserCircle } from "react-icons/fa";
 import { IoIosMail } from "react-icons/io";
@@ -13,6 +16,7 @@ import useAuth from "../Context/useAuth";
 
 import "../styles/SignUp&LoginForm.scss";
 
+
 function LoginForm() {
   
   const navigate = useNavigate();
@@ -22,6 +26,11 @@ function LoginForm() {
   const [username, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  const signupRedirect = (event) => {
+    event.preventDefault();
+    navigate('/signup');
+}
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -71,7 +80,10 @@ function LoginForm() {
 ];
 
   return (
+   
     <div className="page">
+      <GoBackArrow />
+      <div style={{display: "flex", position : "absolute", top : "30px", left : "90%"}}><SignUpButton buttontext='Sign Up' onclick={signupRedirect}/></div>
       <div className="background"></div>
       <div className="login-container loginPage">
         <div className="login-container loginCard">

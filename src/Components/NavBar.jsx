@@ -1,9 +1,13 @@
 import { useNavigate, useLocation } from "react-router-dom";
+import LoginButton from "./LoginButton";
+import SignUpButton from "./SignUpButton";
+
 import "../styles/NavBar.css";
 
 function NavBar() {
-    const navigate = useNavigate();
     const location = useLocation(); // Get current location
+
+    const navigate = useNavigate();
 
     const loginRedirect = (event) => {
         event.preventDefault();
@@ -29,8 +33,8 @@ function NavBar() {
               <div className={location.pathname === '/team' ? 'active' : ''} id="Me"><a href="/team">The Team</a></div>
           </div>
           <div className="loggers">
-              <button className="login" onClick={loginRedirect} type="submit">Log In</button>
-              <button className="signup" onClick={signupRedirect} type="submit">Sign Up</button>
+              <LoginButton buttontext="Log In" onclick={loginRedirect}/>
+              <SignUpButton buttontext="Sign Up" onclick={signupRedirect}/>
           </div>
       </div>
     );

@@ -7,6 +7,8 @@ const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [user, setUser] = useState(null);
+
     const [loginError, setLoginError] = useState(false);
     const [loginMessage, setLoginMessage] = useState('');
 
@@ -21,26 +23,30 @@ const AuthProvider = ({ children }) => {
             },
             withCredentials: true // Include this if you're working with cookies or sessions
           });
-          console.log("IS THE USER AUTHENTICATED ? : ", isAuthenticated);
+
           switch (response.status) {
               case 200:
                 setLoginError(false);
                 setLoginMessage(response.data.info.message);
                 setIsAuthenticated(true);
+                setUser(response.data.user);
                 break;
               case 401:
                 setLoginError(true);
                 setLoginMessage(response.data.message);
                 setIsAuthenticated(false);
+                setUser(null);
                 break;
               case 500:
                 setLoginError(true);
                 setLoginMessage(response.data.message);
                 setIsAuthenticated(false);
+                setUser(null);
                 break;
           }
-          console.log("IS THE USER AUTHENTICATED ? : ", isAuthenticated);
-        }catch(error){
+
+        }
+        catch(error){
           console.error('Error submitting form:', error);
           // Check if the error has a response from the server
           if (error.response) {
@@ -49,10 +55,16 @@ const AuthProvider = ({ children }) => {
           }
           setLoginError(true);
         }
-      }
+    }
+
+    const logout = () => {setIsAuthenticated(false)}
 
     return (
-        <AuthContext.Provider value={{isAuthenticated, loginError, loginMessage, login}}>
+        <AuthContext.Provider value={
+          {isAuthenticated, user, // Authentication & User
+          loginError, loginMessage, login, // Login
+          logout} // Logout
+          }> 
             {children}
         </AuthContext.Provider>
     );

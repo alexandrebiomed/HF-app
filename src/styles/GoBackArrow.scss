@@ -1,0 +1,37 @@
+.goBackArrow{
+    position: absolute;
+    top : 30px;
+    left : 30px;
+    
+    .goBackButton{
+        background: none; /* Removes the background */
+        border: none; /* Removes the border */
+        padding: 0; /* Optional: remove padding if needed */
+        margin: 0; /* Optional: remove margin if needed */
+        
+    }
+
+    .goBackButton:focus {
+        animation: vibrate 0.3s; /* Trigger vibration effect on hover */
+    }
+
+    .goBackIcon {
+        font-size: 4em; /* Increase icon size, adjust as needed */
+        color: white;
+    }
+
+    .goBackIcon:hover{
+        //box-shadow: 0 0 10px 10px rgba(0, 123, 255, 0.8); /* Halo effect */
+        filter: drop-shadow(0 0 10px rgba(0, 123, 255, 0.8)); /* Halo effect */
+    }
+
+}
+
+@keyframes vibrate {
+    0% { transform: translate(1px, 0); }
+    20% { transform: translate(-1px, 0); }
+    40% { transform: translate(1px, 0); }
+    60% { transform: translate(-1px, 0); }
+    80% { transform: translate(1px, 0); }
+    100% { transform: translate(0, 0); }
+}

@@ -52,7 +52,9 @@ hr{
             display: flex;
             flex-direction: column;
             justify-content: flex-start;
-            background: linear-gradient(-90deg, #ffffff 50%, #ffffff ); /* Gradient at a 45-degree angle */
+            background: white;
+            background: linear-gradient(-90deg, #06c1ff, #7f83ff ); /* Gradient at a 45-degree angle */
+            
             padding: 10px;
             border-radius: 15px;
             
@@ -63,7 +65,7 @@ hr{
                 align-items: center;
                 
                 #login-title{
-                    color:rgb(50, 50, 50);
+                    color:rgb(255, 255, 255);
                     text-align: center;
                     font-family: "Roboto", sans-serif;
                     font-size: 1.5em;
@@ -119,13 +121,8 @@ hr{
                     height: auto;
                     border-radius : 50%;
                     transition: transform 1s ease;
-                    opacity: 0.15;
-                    flex:1;
-                  }
-                  #loginImage:hover {
-                    transform-style: preserve-3d;
-                    transform: rotate(360deg) scale(140%);
                     opacity: 1;
+                    flex:1;
                   }
             }
 
@@ -166,6 +163,7 @@ hr{
                         font-size: auto;
                         font-weight: 600;
                         padding-left: 20px;
+                        transition: transform 0.2s ease;
 
                         span{
                             padding-left: 10px;
@@ -173,7 +171,7 @@ hr{
                     }
 
                     #google-button:hover{
-                        scale:1.1;
+                        transform: scale(1.1);
                     }
 
                     #facebook-button{
@@ -185,7 +183,7 @@ hr{
                     }
 
                     #facebook-button:hover{
-                        scale:1.1;
+                        transform: scale(1.1);
                     }
 
                     #github-button{
@@ -197,7 +195,7 @@ hr{
                     }
 
                     #github-button:hover{
-                        scale:1.1;
+                        transform: scale(1.1);
                     }
                 }
         }

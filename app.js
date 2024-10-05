@@ -92,20 +92,23 @@ app.post('/login', (req, res, next) => {
   })(req, res, next);
 });
 
-
-app.get('auth/status', (req, res) => {
-  if (req.isAuthenticated()) {
-      res.json({ authenticated: true, user: req.user });
-  } else {
-      res.json({ authenticated: false });
-  }
-});
-
 app.post('/signup', async (req, res) => {
   //! Maybe we don't need the userId in the res.json() because not used when using axios on the client-side
   console.log("TRYING TO SIGN UP");
   const { username, email, password } = req.body; // Extract the data sent by the user
-  let client; 
+  let client;
+
+  // Verify Password constraints :
+  //    1. At least 10 characters.
+  //    2. At least 1 lowercase character.
+  //    3. At least 1 uppercase character.
+  //    4. At least 1 digit.
+  //    5. At least 1 special character.  
+  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])[A-Za-z\d\W_]{10,}$/;
+  if (!passwordRegex.test(password)){
+    return res.status(409).json({message : "The password must have at least :  10 characters, one lowercase, one uppercase, one digit and one special character."})
+  }
+
 
   try{
     // Verify if the user does not already exist 
@@ -113,12 +116,12 @@ app.post('/signup', async (req, res) => {
     const response = await client.query("SELECT * FROM users WHERE email = $1 OR username = $2", [email,username]); // Search user in database
 
     if (response.rowCount>0){ // If user found in database
-      return res.status(409).json({message : "This user already exists. Try again or Log In.", valid:false})
+      return res.status(409).json({message : "This user already exists. Try again or Log In."})
     }
 
     bcrypt.hash(password, saltRounds, async (err, hash) => {
       if(err){
-        res.status(500).json({ message: 'Could not hash password', valid:false });
+        res.status(500).json({ message: 'Could not hash password'});
         console.error("Error Trying to hash password :", err);
       }else{
         try{
@@ -130,23 +133,23 @@ app.post('/signup', async (req, res) => {
           req.login(newUser, (err) => {
             if (err) {
               console.error("Error during login:", err);
-              return res.status(500).json({ message: 'Error logging in user.', valid: false });
+              return res.status(500).json({ message: 'Error logging in user.'});
             }
             // Successfully created and logged in
-            res.status(201).json({ message: 'User created successfully', userId: newUser.id, valid: true });
+            res.status(201).json({ message: 'User created successfully', userId: newUser.id});
             console.log("User successfully added to database and logged in");
           });
 
         }catch(error){
           console.error("Error trying to insert user data into database : ", error);
-          res.status(500).json({ message: 'An error occurred while creating the user.', valid:false });
+          res.status(500).json({ message: 'An error occurred while creating the user.' });
         }
       }
     })
 
   }catch(error){
         console.log('Error trying to acces database : ', error);
-        res.status(500).json({ message: "Internal server error. Please try again later.", valid: false });
+        res.status(500).json({ message: "Internal server error. Please try again later."});
   }finally{
     if (client){
       client.release();

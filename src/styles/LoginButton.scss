@@ -1,0 +1,20 @@
+.login {
+    display: inline-block;
+    white-space: nowrap;
+    background-color: rgb(240, 244, 255);
+    width: 100px;
+    height: 50px;
+    border-radius: 10px;
+    border: none;
+    font-size: 15px;
+    font-family: "Playwrite BE WAL", cursive;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+  }
+  
+.login:hover {
+font-weight: bolder;
+transform: scale(1.2); /* Scale up by 10% on hover */
+background-color: white;
+}
+  
+  

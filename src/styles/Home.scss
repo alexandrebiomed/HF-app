@@ -62,18 +62,18 @@
 
           #imageSection1 {
             width: 400px;
-            height: auto;
+            height: 400px;
             border-radius: 20%;
             box-shadow: 3px 3px 10px rgb(255, 0, 208);
             margin : 10px 50px 10px 0px;
-            transition: transform 1s; /* Smooth transition for the transformation */
             transform-style: preserve-3d; /* Preserve 3D transformations */
+            cursor : pointer;
+            transition: transform 0.5s ease-out;
           }
         }
 
-        .image:hover #imageSection1{
-          transform: rotateY(360deg); /* Rotate on the y-axis on hover */
-        }
+
+
       }
 
       &.section2 {
@@ -130,15 +130,11 @@
             border-radius: 20%;
             box-shadow: -3px 3px 10px rgb(38, 0, 255);
             margin-left: 40px;
-            transition: transform 1s; /* Smooth transition for the transformation */
-            transform-style: preserve-3d; /* Preserve 3D transformations */                     
+            transform-style: preserve-3d; /* Preserve 3D transformations */
+            cursor : pointer;
+            transition: transform 0.5s ease-out;                 
           }
         }
-
-        .image:hover #imageSection2{
-          transform: rotateY(360deg); /* Rotate on the y-axis on hover */
-        }
-
       }
 
       &.section3 {
@@ -193,13 +189,10 @@
             border-radius: 20%;
             box-shadow: 3px 3px 10px rgb(255, 0, 208);
             margin : 10px 50px 10px 0px;
-            transition: transform 1s; /* Smooth transition for the transformation */
             transform-style: preserve-3d; /* Preserve 3D transformations */
+            cursor : pointer;
+            transition: transform 0.5s ease-out;
           }
-        }
-
-        .image:hover #imageSection3{
-          transform: rotateY(360deg); /* Rotate on the y-axis on hover */
         }
 
       }

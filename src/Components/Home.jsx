@@ -1,6 +1,71 @@
+import {useState, useRef} from 'react';
+
 import "../styles/Home.scss";
 
 const Home = () => {
+
+    const images = {
+        image1 : {initial : "../../public/images/FamillyDALLE.png", mouseDown : "../../public/images/handChat.png"},
+        image2 : {initial : "../../public/images/FamillyDALLE2.png", mouseDown : "../../public/images/handChat.png"},
+        image3 : {initial : "../../public/images/FamillyDALLE3.png", mouseDown : "../../public/images/handChat.png"}
+    }
+
+    const [imageSrc, setImageSrc] = useState({image1 : images.image1.initial, image2 : images.image2.initial, image3 : images.image3.initial});
+    const [canClick, setCanClick] = useState(true);
+    const [isClicked, setisClicked] = useState(false);
+    const [isOutAble, setisOutAble] = useState(false);
+    const imgRefs = useRef({}); 
+    let timer;
+
+    const handleMouseUp = (image) => {
+        
+        if (imgRefs.current[image] && canClick && !isClicked) {
+            setisOutAble(prev => !prev);
+            console.log("ON MOUSE UP");
+            clearTimeout(timer);
+            setTimeout(() => setImageSrc((prevImageSrc) => ({...prevImageSrc, [image] : images[image].mouseDown,})), 100);
+            imgRefs.current[image].style.transform = 'rotateY(180deg) scaleX(-1)';
+            imgRefs.current[image].style.transition = 'transform 0.5s'; // Optional for smooth transition
+            setCanClick(prev => !prev);
+            setisClicked(prev => !prev);
+            setisOutAble(prev => !prev);
+        }      
+    
+    };
+
+    const handleMouseOver = (image) => {
+        
+        if (imgRefs.current[image]) {
+            setisOutAble(true);
+            console.log("ON MOUSE ENTER");
+            imgRefs.current[image].style.filter = 'drop-shadow(0 0 10px rgba(0, 123, 255, 0.8))';
+            imgRefs.current[image].style.transform = 'scale(1.03)';
+            imgRefs.current[image].style.transition = 'transform 0.5s ease-out'; // Optional for smooth transition
+        }    
+    }
+
+    const handleMouseOut = (image) => {
+        setisOutAble(false);
+        if (imgRefs.current[image]) {
+            if (isClicked) {
+                console.log("ON MOUSE OUT WITH CLICKED");
+                setTimeout(() => setImageSrc((prevImageSrc) => ({...prevImageSrc, [image] : images[image].initial,})), 100);
+                imgRefs.current[image].style.transform =  'scale(1) scaleX(1)';
+                imgRefs.current[image].style.transition = 'transform 0.5s';
+                timer = setTimeout(() => {setCanClick(prev => !prev);}, 500);
+            }else {
+                console.log("ON MOUSE OUT WITHOUT CLICKED");
+                imgRefs.current[image].style.transform = 'scale(1)';
+                imgRefs.current[image].style.transition = 'transform 0.5s';
+            }
+            imgRefs.current[image].style.filter = 'none';
+            setisClicked(false);
+            
+            
+        }
+    };
+
+    
     
     return (
         <div className="home-container home"> 
@@ -20,8 +85,15 @@ const Home = () => {
                             making it a source of strength and joy.
                         </p>
                     </div>
-                    <div className="image section1">
-                        <img src="/images/FamillyDALLE2.png" alt="image" id="imageSection1" />
+                    <div className={"image section1"}  >
+                        <img
+                            ref={(el) => imgRefs.current["image1"] = el}
+                            src={imageSrc["image1"]}
+                            onMouseUp={() => handleMouseUp("image1")}
+                            onMouseOver={() => handleMouseOver("image1")}
+                            onMouseOut={isOutAble ? () => handleMouseOut("image1") :  ()=>{}}
+                            alt="image"
+                            id="imageSection1" />
                     </div>
                 </div>
             </section>
@@ -31,8 +103,15 @@ const Home = () => {
 
             <section>
                 <div className="section2 home-container">
-                    <div className="image section2">
-                        <img src="/images/FamillyDALLE3.png" alt="image" id="imageSection2" />
+                    <div className="image section2" >
+                        <img
+                            ref={(el) => imgRefs.current["image2"] = el}
+                            src={imageSrc["image2"]}
+                            onMouseUp={() => handleMouseUp("image2")}
+                            onMouseOver={() => handleMouseOver("image2")}
+                            onMouseOut={isOutAble ? () => handleMouseOut("image2") :  ()=>{}}
+                            alt="image"
+                            id="imageSection2" />
                     </div>
                     <div className="text section2">
                         <div style={{display : "flex", wrap : "no-wrap", alignItems : "center"}}>
@@ -63,7 +142,7 @@ const Home = () => {
                             <h2> &nbsp;a connected family is a happy one</h2>
                         </div>
                         <p style={{ textAlign: 'justify', lineHeight: '25px' }}>
-                            At FamilyBlog we believe that no matter how far you are from your family,
+                            At <i>HappyFamily</i> we believe that no matter how far you are from your family,
                             harvesting deep relationships and sharing your adventure should be accessible,
                             fun, convenient, and bring you love.
                             <br /><br />
@@ -71,7 +150,14 @@ const Home = () => {
                         </p>
                     </div>
                     <div className="image section3">
-                        <img src="/images/FamillyDALLE.png" alt="image" id="imageSection3" />
+                    <img
+                        ref={(el) => imgRefs.current["image3"] = el}
+                        src={imageSrc["image3"]}
+                        onMouseUp={() => handleMouseUp("image3")}
+                        onMouseOver={() => handleMouseOver("image3")}
+                        onMouseOut={isOutAble ? () => handleMouseOut("image3") :  ()=>{}}
+                        alt="image"
+                        id="imageSection3" />
                     </div>
                 </div>
             </section>

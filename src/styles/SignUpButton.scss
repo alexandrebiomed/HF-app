@@ -1,0 +1,19 @@
+.signup {
+    display: inline-block;
+    white-space: nowrap;
+    background-color: rgb(82, 82, 82);
+    color : white;
+    width: 100px;
+    height: 50px;
+    border-radius: 10px;
+    border: none;
+    font-size: 15px;
+    font-family: "Playwrite BE WAL", cursive;
+    transition: transform 0.3s ease;
+  }
+
+.signup:hover {
+background-color: rgba(0, 0, 0, 1);
+font-weight: bolder;
+transform: scale(1.2); /* Scale up by 10% on hover */
+}
