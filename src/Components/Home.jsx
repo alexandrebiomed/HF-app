@@ -11,17 +11,15 @@ const Home = () => {
     }
 
     const [imageSrc, setImageSrc] = useState({image1 : images.image1.initial, image2 : images.image2.initial, image3 : images.image3.initial});
-    const [canClick, setCanClick] = useState(true);
-    const [isClicked, setisClicked] = useState(false);
-    const [isAnimating, setisAnimating] = useState(false);
+    const [canClick, setCanClick] = useState({image1 : true, image2 : true, image3 : true});
+    const [isClicked, setisClicked] = useState({image1 : false, image2 : false, image3 : false});
+    const [isAnimating, setisAnimating] = useState({image1 : false, image2 : false, image3 : false});
     const imgRefs = useRef({}); 
     const timerRef = useRef(null);
 
     const handleMouseUp = (image) => {
         
-        if (imgRefs.current[image] && canClick && !isClicked && !isAnimating) {
-            console.log("ON MOUSE UP - BEG : ", isAnimating);
-
+        if (imgRefs.current[image] && canClick[image] && !isClicked[image] && !isAnimating[image]) {
             clearTimeout(timerRef.current); // Ensure timer is cleared
     
             // Set the image source and styles in a single update
@@ -34,14 +32,25 @@ const Home = () => {
             imgRefs.current[image].style.transition = 'transform 0.5s'; // Optional for smooth transition
             
             // Update multiple states in one go
-            setCanClick(false);
-            setisClicked(true);
-            setisAnimating(true);
-            console.log("ON MOUSE UP - END: ", isAnimating);
+            setCanClick(prevCanClick => ({
+                ...prevCanClick,
+                [image]: false,
+            }));
+            setisClicked(prevIsClicked => ({
+                ...prevIsClicked,
+                [image]: true,
+            }));
+            setisAnimating(prevIsAnimating => ({
+                ...prevIsAnimating,
+                [image]: true,
+            }));
     
             // If you want to reset the animation state after some time, use a timer
             timerRef.current = setTimeout(() => {
-                setisAnimating(false);
+                setisAnimating(prevIsAnimating => ({
+                    ...prevIsAnimating,
+                    [image]: false,
+                }));
             }, 500); // Duration should match your animation time
         }
     };
@@ -49,8 +58,8 @@ const Home = () => {
 
     const handleMouseOver = (image) => {
         
-        if (imgRefs.current[image] && !isClicked) {
-            console.log("ON MOUSE ENTER : ", isAnimating);
+        if (imgRefs.current[image] && !isClicked[image]) {
+
             imgRefs.current[image].style.filter = 'drop-shadow(0 0 10px rgba(0, 123, 255, 0.8))';
             imgRefs.current[image].style.transform = 'scale(1.03)';
             imgRefs.current[image].style.transition = 'transform 0.5s ease-out'; // Optional for smooth transition
@@ -60,14 +69,22 @@ const Home = () => {
 
     const handleMouseLeave = (image) => {
         
-        if (imgRefs.current[image] && !isAnimating) {
-            console.log("ON MOUSE LEAVE : ", isAnimating);
+        if (imgRefs.current[image] && !isAnimating[image]) {
             if (isClicked) {
-                setTimeout(() => setImageSrc((prevImageSrc) => ({...prevImageSrc, [image] : images[image].initial,})), 100);
+                setTimeout(() => setImageSrc(prevImageSrc => ({
+                    ...prevImageSrc,
+                    [image]: images[image].initial,
+                })), 100);
                 imgRefs.current[image].style.transform =  'scale(1) scaleX(1)';
                 imgRefs.current[image].style.transition = 'transform 0.5s';
-                timerRef.current = setTimeout(() => {setCanClick(true);}, 500);
-                setisClicked(false);
+                timerRef.current = setTimeout(() => {setCanClick(prevCanClick => ({
+                    ...prevCanClick,
+                    [image]: true,
+                }));}, 500);
+                setisClicked(prevIsClicked => ({
+                    ...prevIsClicked,
+                    [image]: false,
+                }));
             }else {
                 imgRefs.current[image].style.transform = 'scale(1)';
                 imgRefs.current[image].style.transition = 'transform 0.5s';
