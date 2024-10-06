@@ -1,4 +1,4 @@
-import {useState, useRef} from 'react';
+import {useState, useEffect, useRef} from 'react';
 
 import "../styles/Home.scss";
 
@@ -13,57 +13,76 @@ const Home = () => {
     const [imageSrc, setImageSrc] = useState({image1 : images.image1.initial, image2 : images.image2.initial, image3 : images.image3.initial});
     const [canClick, setCanClick] = useState(true);
     const [isClicked, setisClicked] = useState(false);
-    const [isOutAble, setisOutAble] = useState(false);
+    const [isAnimating, setisAnimating] = useState(false);
     const imgRefs = useRef({}); 
-    let timer;
+    const timerRef = useRef(null);
 
     const handleMouseUp = (image) => {
         
-        if (imgRefs.current[image] && canClick && !isClicked) {
-            setisOutAble(prev => !prev);
-            console.log("ON MOUSE UP");
-            clearTimeout(timer);
-            setTimeout(() => setImageSrc((prevImageSrc) => ({...prevImageSrc, [image] : images[image].mouseDown,})), 100);
+        if (imgRefs.current[image] && canClick && !isClicked && !isAnimating) {
+            console.log("ON MOUSE UP - BEG : ", isAnimating);
+
+            clearTimeout(timerRef.current); // Ensure timer is cleared
+    
+            // Set the image source and styles in a single update
+            setImageSrc(prevImageSrc => ({
+                ...prevImageSrc,
+                [image]: images[image].mouseDown,
+            }));
+            
             imgRefs.current[image].style.transform = 'rotateY(180deg) scaleX(-1)';
             imgRefs.current[image].style.transition = 'transform 0.5s'; // Optional for smooth transition
-            setCanClick(prev => !prev);
-            setisClicked(prev => !prev);
-            setisOutAble(prev => !prev);
-        }      
+            
+            // Update multiple states in one go
+            setCanClick(false);
+            setisClicked(true);
+            setisAnimating(true);
+            console.log("ON MOUSE UP - END: ", isAnimating);
     
+            // If you want to reset the animation state after some time, use a timer
+            timerRef.current = setTimeout(() => {
+                setisAnimating(false);
+            }, 500); // Duration should match your animation time
+        }
     };
+    
 
     const handleMouseOver = (image) => {
         
-        if (imgRefs.current[image]) {
-            setisOutAble(true);
-            console.log("ON MOUSE ENTER");
+        if (imgRefs.current[image] && !isClicked) {
+            console.log("ON MOUSE ENTER : ", isAnimating);
             imgRefs.current[image].style.filter = 'drop-shadow(0 0 10px rgba(0, 123, 255, 0.8))';
             imgRefs.current[image].style.transform = 'scale(1.03)';
             imgRefs.current[image].style.transition = 'transform 0.5s ease-out'; // Optional for smooth transition
+            
         }    
     }
 
-    const handleMouseOut = (image) => {
-        setisOutAble(false);
-        if (imgRefs.current[image]) {
+    const handleMouseLeave = (image) => {
+        
+        if (imgRefs.current[image] && !isAnimating) {
+            console.log("ON MOUSE LEAVE : ", isAnimating);
             if (isClicked) {
-                console.log("ON MOUSE OUT WITH CLICKED");
                 setTimeout(() => setImageSrc((prevImageSrc) => ({...prevImageSrc, [image] : images[image].initial,})), 100);
                 imgRefs.current[image].style.transform =  'scale(1) scaleX(1)';
                 imgRefs.current[image].style.transition = 'transform 0.5s';
-                timer = setTimeout(() => {setCanClick(prev => !prev);}, 500);
+                timerRef.current = setTimeout(() => {setCanClick(true);}, 500);
+                setisClicked(false);
             }else {
-                console.log("ON MOUSE OUT WITHOUT CLICKED");
                 imgRefs.current[image].style.transform = 'scale(1)';
                 imgRefs.current[image].style.transition = 'transform 0.5s';
             }
             imgRefs.current[image].style.filter = 'none';
-            setisClicked(false);
-            
             
         }
     };
+
+    // Cleanup on unmount
+    useEffect(() => {
+        return () => {
+            clearTimeout(timerRef.current);
+        };
+    }, []);
 
     
     
@@ -90,8 +109,8 @@ const Home = () => {
                             ref={(el) => imgRefs.current["image1"] = el}
                             src={imageSrc["image1"]}
                             onMouseUp={() => handleMouseUp("image1")}
-                            onMouseOver={() => handleMouseOver("image1")}
-                            onMouseOut={isOutAble ? () => handleMouseOut("image1") :  ()=>{}}
+                            onMouseEnter={() => handleMouseOver("image1")}
+                            onMouseLeave={() => handleMouseLeave("image1")}
                             alt="image"
                             id="imageSection1" />
                     </div>
@@ -109,7 +128,7 @@ const Home = () => {
                             src={imageSrc["image2"]}
                             onMouseUp={() => handleMouseUp("image2")}
                             onMouseOver={() => handleMouseOver("image2")}
-                            onMouseOut={isOutAble ? () => handleMouseOut("image2") :  ()=>{}}
+                            onMouseLeave={() => handleMouseLeave("image2")}
                             alt="image"
                             id="imageSection2" />
                     </div>
@@ -155,7 +174,7 @@ const Home = () => {
                         src={imageSrc["image3"]}
                         onMouseUp={() => handleMouseUp("image3")}
                         onMouseOver={() => handleMouseOver("image3")}
-                        onMouseOut={isOutAble ? () => handleMouseOut("image3") :  ()=>{}}
+                        onMouseLeave={() => handleMouseLeave("image3")}
                         alt="image"
                         id="imageSection3" />
                     </div>
