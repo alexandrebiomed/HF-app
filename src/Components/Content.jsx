@@ -1,19 +1,28 @@
-import useAuth from "../Context/useAuth";
+import { useState } from "react";
 
-import { useEffect } from 'react';
-import { useNavigate } from "react-router-dom";
+import useAuth from "../Context/useAuth";
+import "../styles/Content.scss";
+
+// import { useEffect } from 'react';
+// import { useNavigate } from "react-router-dom";
 
 function Content() {
   const {isAuthenticated, user, logout} = useAuth();
 
-  const navigate = useNavigate();
+  const [drawerOpen, setDrawerOpen] = useState(false);
 
-  useEffect(() => {
-    if (!isAuthenticated) {
-        navigate('/login');
-    }
-// eslint-disable-next-line react-hooks/exhaustive-deps
-}, [isAuthenticated]);
+  const toggleDrawer = (open) => () => {
+      setDrawerOpen(open);
+  };
+
+//  const navigate = useNavigate();
+
+//  useEffect(() => {
+//    if (!isAuthenticated) {
+//        navigate('/login');
+//    }
+//// eslint-disable-next-line react-hooks/exhaustive-deps
+//}, [isAuthenticated]);
 
 
   const handleLogout = (event) => {
@@ -22,11 +31,27 @@ function Content() {
   }
 
   return (
-    <>
-      <button className="login" onClick={handleLogout}>Logout</button>
-      
-      <p>Hi user with id {user.id}, you are authenticated : {isAuthenticated ? "true" : "false"}!</p>
-    </>
+    <div className="content-container">
+      <div className="gridLayout">
+        <div className="content-background"></div>
+        <div className="grid-item Logo">
+          <img src="images/logo2.png" alt="FamilyBlog logo" id="logo" />
+          <a href="/" id="familyblog">HappyFamily</a> 
+        </div>
+        <div className="grid-item leftSideBar">
+          leftSideBar
+        </div>
+        <div className="grid-item Panel">
+          Panel
+        </div>
+        <div className="grid-item rightSideBar">
+          rightSideBar
+          <button className="login" onClick={handleLogout}>Logout</button>
+          <p>Hi user with id {user?.id}, you are authenticated : {isAuthenticated ? "true" : "false"}!</p>
+        </div>
+        
+      </div>
+    </div>
   )
 }
 
