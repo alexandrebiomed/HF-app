@@ -1,29 +1,28 @@
-hr{
-    background-color: rgb(147, 147, 147);
-    opacity: 0.2;
+hr {
+    background-color: rgb(255, 255, 255);
+    opacity: 0.3;
     border: none;
     height: 2px;
     width: 80%;
-    margin:0px;
 }
 
-.loginErrorMessageContainer{
+.loginErrorMessageContainer {
     display: flex;
     position: relative;
-    left:20px;
+    left: 20px;
     margin-top: 5px;
     justify-content: space-around;
     color: rgb(255, 0, 0);
     font-size: 15px;
 }
 
-.deActivated{
-    display : none;
+.deActivated {
+    display: none;
 }
 
-.background{
-    background-image: url('../../public/images/loginBackground2.png');
-    background-size: cover;  /* Cover the entire element */
+.background {
+    background-image: url("../../public/images/loginBackground2.png") !important;
+    background-size: cover; /* Cover the entire element */
     background-repeat: no-repeat; /* Prevent the image from repeating */
     background-position: center; /* Center the image */
     height: 100%; /* Full height */
@@ -35,13 +34,12 @@ hr{
     filter: blur(0.4vh); /* Apply blur effect */
 }
 
-.page{
+.page {
     display: flex;
     justify-content: center;
-    height:100vh;
-    
-    .loginPage{
-        background-color: rgb(0,0,0,0);
+    height: 100vh;
+
+    .loginPage {
         display: flex;
         flex-direction: row;
         align-items: center;
@@ -52,42 +50,40 @@ hr{
             display: flex;
             flex-direction: column;
             justify-content: flex-start;
-            background: white;
-            background: linear-gradient(-90deg, #06c1ff, #7f83ff ); /* Gradient at a 45-degree angle */
             
+            background: linear-gradient(-90deg, #06c1ff, #7f83ff); /* Gradient at a 45-degree angle */
+
             padding: 10px;
             border-radius: 15px;
-            
-            
-            .titleContainer{
+
+            .titleContainer {
                 display: flex;
                 flex-direction: column;
                 align-items: center;
-                
-                #login-title{
-                    color:rgb(255, 255, 255);
+
+                #login-title {
+                    color: rgb(255, 255, 255);
                     text-align: center;
                     font-family: "Roboto", sans-serif;
                     font-size: 1.5em;
                     text-shadow: none;
-                    margin:0px;
+                    margin: 0px;
                 }
             }
-            
-        
-            .form{
+
+            .form {
                 display: flex;
                 flex-direction: row;
                 justify-content: flex-start;
                 align-items: center;
-                .userInputs{
+                .userInputs {
                     font-size: 0.5em;
                     width: 420px;
-                    margin-left:25px;
-                    flex:2;
+                    margin-left: 25px;
+                    flex: 2;
 
-                    .submitButton{
-                        position:relative;
+                    .submitButton {
+                        position: relative;
                         left: 50px;
                         top: 10px;
                         color: white;
@@ -100,124 +96,116 @@ hr{
                         background-color: rgba(0, 85, 232, 0.555);
                         border-radius: 2em;
                         border-color: rgba(255, 255, 255, 0.177);
-                        transition: background-color 0.7s, border-color 0.7s, color 0.7s;
+                        transition:
+                            background-color 0.7s,
+                            border-color 0.7s,
+                            color 0.7s;
                     }
-                    
-                    .submitButton:hover{
+
+                    .submitButton:hover {
                         font-weight: bolder;
                         background-color: rgb(0, 11, 128);
                     }
-                    
+
                     .submitButton:focus {
                         animation: shrinkAndGrow 0.3s ease-in-out 0s both;
-                      }
+                    }
                 }
-          
+
                 #loginImage {
                     position: relative; /* Position the last item absolutely */
-                    left:20px;
+                    left: 20px;
                     justify-content: center;
                     width: 3em;
                     height: auto;
-                    border-radius : 50%;
+                    border-radius: 50%;
                     transition: transform 1s ease;
                     opacity: 1;
-                    flex:1;
-                  }
+                    flex: 1;
+                }
             }
 
-            .or-separation{
+            .or-separation {
                 display: flex;
                 flex-direction: row;
                 align-items: center;
-                #or{
-                    color:rgb(0, 0, 0);
+                #or {
+                    color: rgb(0, 0, 0);
                     text-align: center;
                     font-family: "Nunito", sans-serif;
                     font-size: 0.8em;
                     text-shadow: none;
-                    margin:0px 15px;
+                    margin: 0px 15px;
                 }
-                
-                
             }
-            
 
-            .signWith{
+            .signWith {
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                gap:2em;
+                gap: 2em;
 
-                    #google-button{
-                        display: flex;
-                        align-items: center;
-                        justify-content: flex-start;
-                        height: 30px;
-                        width: 200px;
-                        border-color: rgb(255, 255, 255);
-                        border-width: 1px;
-                        background-color:#f7f6ff;
-                        border-radius: 5px;
-                        font-family: "Nunito", sans-serif;
-                        font-size: auto;
-                        font-weight: 600;
-                        padding-left: 20px;
-                        transition: transform 0.2s ease;
+                #google-button {
+                    display: flex;
+                    align-items: center;
+                    justify-content: flex-start;
+                    height: 30px;
+                    width: 200px;
+                    border-color: rgb(255, 255, 255);
+                    border-width: 1px;
+                    background-color: #f7f6ff;
+                    border-radius: 5px;
+                    font-family: "Nunito", sans-serif;
+                    font-size: auto;
+                    font-weight: 600;
+                    padding-left: 20px;
+                    transition: transform 0.2s ease;
 
-                        span{
-                            padding-left: 10px;
-                        }
-                    }
-
-                    #google-button:hover{
-                        transform: scale(1.1);
-                    }
-
-                    #facebook-button{
-                        @extend #google-button;
-
-                        span{
-                            padding-left: 10px;
-                        }
-                    }
-
-                    #facebook-button:hover{
-                        transform: scale(1.1);
-                    }
-
-                    #github-button{
-                        @extend #google-button;
-
-                        span{
-                            padding-left: 10px;
-                        }
-                    }
-
-                    #github-button:hover{
-                        transform: scale(1.1);
+                    span {
+                        padding-left: 10px;
                     }
                 }
+
+                #google-button:hover {
+                    transform: scale(1.1);
+                }
+
+                #facebook-button {
+                    @extend #google-button;
+
+                    span {
+                        padding-left: 10px;
+                    }
+                }
+
+                #facebook-button:hover {
+                    transform: scale(1.1);
+                }
+
+                #github-button {
+                    @extend #google-button;
+
+                    span {
+                        padding-left: 10px;
+                    }
+                }
+
+                #github-button:hover {
+                    transform: scale(1.1);
+                }
+            }
         }
     }
 }
 
-
 @keyframes shrinkAndGrow {
     0% {
-      transform: scale(1); /* Normal size */
+        transform: scale(1); /* Normal size */
     }
     50% {
-      transform: scale(0.9); /* Shrink to 90% of original size */
+        transform: scale(0.9); /* Shrink to 90% of original size */
     }
     100% {
-      transform: scale(1); /* Return to normal size */
+        transform: scale(1); /* Return to normal size */
     }
-  }
-
-
-
-
-
-
-
+}

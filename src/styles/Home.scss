@@ -1,14 +1,13 @@
 .home {
-  background: linear-gradient(0deg, rgba(123, 0, 255, 0.104), rgb(221, 252, 255),rgba(208, 250, 255, 0.194) 95%);
+  background: linear-gradient(0deg, rgba(123, 0, 255, 0.104), rgb(221, 252, 255), rgba(208, 250, 255, 0.194) 95%);
   display: grid;
   justify-content: center; // Horizontally centers the container
   align-items: center;
   border-radius: 20px;
+  height: 100%;
+  width: 80em;
 
-  .home-container {
-    max-width: 1300px;
-    min-width: 1000px;
-  }
+  
 
   section {
     .home-container {
@@ -23,8 +22,8 @@
           margin-left: 25px;
           flex: 2;
 
-          div{
-            background: linear-gradient(180deg, rgba(0,0,0,0) 90%, rgb(255, 220, 116));
+          div {
+            background: linear-gradient(180deg, rgba(0, 0, 0, 0) 90%, rgb(255, 220, 116));
             border-radius: 50% 10%;
           }
 
@@ -36,10 +35,14 @@
             font-family: "Playwrite BE WAL", cursive;
           }
 
-          h2, h3, h4, h5, h6 {
-            color : rgb(96, 108, 93);
+          h2,
+          h3,
+          h4,
+          h5,
+          h6 {
+            color: rgb(96, 108, 93);
             position: relative;
-            top : 5px;
+            top: 5px;
             font-family: "Playwrite BE WAL", cursive;
             font-weight: 500;
             font-style: normal;
@@ -65,15 +68,12 @@
             height: 400px;
             border-radius: 20%;
             box-shadow: 3px 3px 10px rgb(255, 0, 208);
-            margin : 10px 50px 10px 0px;
+            margin: 10px 50px 10px 0px;
             transform-style: preserve-3d; /* Preserve 3D transformations */
-            cursor : pointer;
+            cursor: pointer;
             transition: transform 0.5s ease-out;
           }
         }
-
-
-
       }
 
       &.section2 {
@@ -87,7 +87,7 @@
           margin-left: 65px;
           flex: 2;
 
-          div{
+          div {
             background: linear-gradient(180deg, rgba(0, 0, 0, 0) 90%, rgb(255, 220, 116));
             border-radius: 50% 10%;
           }
@@ -100,10 +100,14 @@
             font-family: "Playwrite BE WAL", cursive;
           }
 
-          h2, h3, h4, h5, h6 {
-            color : rgb(96, 108, 93);
+          h2,
+          h3,
+          h4,
+          h5,
+          h6 {
+            color: rgb(96, 108, 93);
             position: relative;
-            top : 5px;
+            top: 5px;
             font-family: "Playwrite BE WAL", cursive;
             font-weight: 500;
             font-style: normal;
@@ -131,8 +135,8 @@
             box-shadow: -3px 3px 10px rgb(38, 0, 255);
             margin-left: 40px;
             transform-style: preserve-3d; /* Preserve 3D transformations */
-            cursor : pointer;
-            transition: transform 0.5s ease-out;                 
+            cursor: pointer;
+            transition: transform 0.5s ease-out;
           }
         }
       }
@@ -146,7 +150,7 @@
           margin-left: 50px;
           flex: 2;
 
-          div{
+          div {
             background: linear-gradient(180deg, rgba(0, 0, 0, 0) 90%, rgb(255, 220, 116));
             border-radius: 50% 10%;
           }
@@ -159,10 +163,14 @@
             font-family: "Playwrite BE WAL", cursive;
           }
 
-          h2, h3, h4, h5, h6 {
-            color : rgb(96, 108, 93);
+          h2,
+          h3,
+          h4,
+          h5,
+          h6 {
+            color: rgb(96, 108, 93);
             position: relative;
-            top : 5px;
+            top: 5px;
             font-family: "Playwrite BE WAL", cursive;
             font-weight: 500;
             font-style: normal;
@@ -188,13 +196,12 @@
             height: auto;
             border-radius: 20%;
             box-shadow: 3px 3px 10px rgb(255, 0, 208);
-            margin : 10px 50px 10px 0px;
+            margin: 10px 50px 10px 0px;
             transform-style: preserve-3d; /* Preserve 3D transformations */
-            cursor : pointer;
+            cursor: pointer;
             transition: transform 0.5s ease-out;
           }
         }
-
       }
     }
   }

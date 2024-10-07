@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import axios from 'axios';
 
+
 const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
@@ -58,10 +59,10 @@ const AuthProvider = ({ children }) => {
     }
 
     const logout = () => {setIsAuthenticated(false)}
-
+    //! REMOVE setIsAuthenticated from the context for security ???
     return (
         <AuthContext.Provider value={
-          {isAuthenticated, user, // Authentication & User
+          {isAuthenticated, setIsAuthenticated, user, // Authentication & User
           loginError, loginMessage, login, // Login
           logout} // Logout
           }> 

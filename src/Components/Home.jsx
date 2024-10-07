@@ -16,6 +16,8 @@ const Home = () => {
     const [isAnimating, setisAnimating] = useState({image1 : false, image2 : false, image3 : false});
     const imgRefs = useRef({}); 
     const timerRef = useRef(null);
+    console.log(import.meta.env.MODE);
+
 
     const handleMouseUp = (image) => {
         
@@ -104,7 +106,7 @@ const Home = () => {
     
     
     return (
-        <div className="home-container home"> 
+        <div className="home"> 
             <section>
                 <div className="section1 home-container">
                     <div className="text section1">

@@ -2,7 +2,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import LoginButton from "./LoginButton";
 import SignUpButton from "./SignUpButton";
 
-import "../styles/NavBar.css";
+import "../styles/NavBar.scss";
 
 function NavBar() {
     const location = useLocation(); // Get current location
