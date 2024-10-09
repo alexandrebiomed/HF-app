@@ -113,7 +113,10 @@ function LoginForm() {
                 <button type="submit" className="submitButton">Log In</button>
               </div>
             </form>
-            <img src="/images/logo2RB.png" alt="image" id="loginImage" />
+            <div className='logoContainer'>
+              <img src="/images/LOGO_HUG.png" alt="image" id="loginImage" />
+              <span id="companyName">D E E P E R</span>
+            </div>
           </div>
           <div className="or-separation">
             <hr/>

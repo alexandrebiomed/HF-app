@@ -1,7 +1,7 @@
 import { useNavigate, useLocation } from "react-router-dom";
 import LoginButton from "./LoginButton";
 import SignUpButton from "./SignUpButton";
-
+import CompanyLogo from './CompanyLogo'
 import "../styles/NavBar.scss";
 
 function NavBar() {
@@ -21,10 +21,10 @@ function NavBar() {
 
     return (
       <div className="navbar container">
-          <div className="logo companyName">
-              <img src="images/logo2.png" alt="FamilyBlog logo" id="logo" />
-              <a href="/" id="familyblog">HappyFamily</a>
+          <div className="navbarLogo">
+             <a href="/"> <CompanyLogo companyName="DEEPER" companySlogan="BUILD REAL HUMAN INTERACTION"/> </a>
           </div>
+          
 
           <div className="navigators">
               <div className={location.pathname === '/' ? 'active' : ''} id="Home"><a href="/">Home</a></div>

@@ -106,7 +106,8 @@ const Home = () => {
     
     
     return (
-        <div className="home"> 
+        <div className="home">
+            <div className='home-background'></div>
             <section>
                 <div className="section1 home-container">
                     <div className="text section1">
@@ -218,6 +219,7 @@ const Home = () => {
             <br />
 
         </div>
+        
     );
 };
 

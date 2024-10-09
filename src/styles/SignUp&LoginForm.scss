@@ -53,8 +53,10 @@ hr {
             
             background: linear-gradient(-90deg, #06c1ff, #7f83ff); /* Gradient at a 45-degree angle */
 
-            padding: 10px;
+            padding: 25px 0px;
             border-radius: 15px;
+            height: 13.1em;
+            width: 22em;
 
             .titleContainer {
                 display: flex;
@@ -76,11 +78,12 @@ hr {
                 flex-direction: row;
                 justify-content: flex-start;
                 align-items: center;
+                padding-bottom: 15px;
+
                 .userInputs {
                     font-size: 0.5em;
                     width: 420px;
                     margin-left: 25px;
-                    flex: 2;
 
                     .submitButton {
                         position: relative;
@@ -112,25 +115,43 @@ hr {
                     }
                 }
 
-                #loginImage {
-                    position: relative; /* Position the last item absolutely */
-                    left: 20px;
-                    justify-content: center;
-                    width: 3em;
-                    height: auto;
-                    border-radius: 50%;
-                    transition: transform 1s ease;
-                    opacity: 1;
-                    flex: 1;
+                .logoContainer{
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    position: relative;
+                    left:70px;
+                    top:15px;
+
+                    #loginImage {
+                        position: relative; /* Position the last item absolutely */
+                        left: 13px;
+                        width: 8em;
+                        height: auto;
+                        border-radius: 50%;
+                        transition: transform 1s ease;
+                        opacity: 0.8;
+                        margin: -40px;
+                    }
+
+                    #companyName{
+                        font-family:"EB Garamond";
+                        color:white;
+                        filter: drop-shadow(0px 0px 2px white);
+                    }
+
                 }
+
+                
             }
 
             .or-separation {
                 display: flex;
                 flex-direction: row;
                 align-items: center;
+                padding: 5px;
                 #or {
-                    color: rgb(0, 0, 0);
+                    color: rgb(255, 255, 255);
                     text-align: center;
                     font-family: "Nunito", sans-serif;
                     font-size: 0.8em;
@@ -143,7 +164,7 @@ hr {
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                gap: 2em;
+                gap: 1.5em;
 
                 #google-button {
                     display: flex;

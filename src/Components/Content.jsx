@@ -1,7 +1,9 @@
-import { useState } from "react";
-
 import useAuth from "../Context/useAuth";
 import "../styles/Content.scss";
+
+import LoginButton from "./LoginButton";
+import ContentMenuItem from "./ContentMenuItem";
+import CompanyLogo from './CompanyLogo'
 
 // import { useEffect } from 'react';
 // import { useNavigate } from "react-router-dom";
@@ -9,11 +11,7 @@ import "../styles/Content.scss";
 function Content() {
   const {isAuthenticated, user, logout} = useAuth();
 
-  const [drawerOpen, setDrawerOpen] = useState(false);
-
-  const toggleDrawer = (open) => () => {
-      setDrawerOpen(open);
-  };
+ 
 
 //  const navigate = useNavigate();
 
@@ -34,19 +32,22 @@ function Content() {
     <div className="content-container">
       <div className="gridLayout">
         <div className="content-background"></div>
-        <div className="grid-item Logo">
-          <img src="images/logo2.png" alt="FamilyBlog logo" id="logo" />
-          <a href="/" id="familyblog">HappyFamily</a> 
+        <div className="grid-item logo-container">
+          <div className="contentLogo">
+            <a href="/"> <CompanyLogo sizeFactor="0.7" companyName="DEEPER" companySlogan="BUILD REAL HUMAN INTERACTION"/> </a>
+          </div>
         </div>
         <div className="grid-item leftSideBar">
-          leftSideBar
+          <ContentMenuItem text="My Chat"/>
+          <ContentMenuItem text="Family Chat"/>
+          <ContentMenuItem text="Blog"/>
         </div>
         <div className="grid-item Panel">
           Panel
         </div>
         <div className="grid-item rightSideBar">
-          rightSideBar
-          <button className="login" onClick={handleLogout}>Logout</button>
+          rightSideBar <br/>
+          <LoginButton buttontext='Logout' onclick={handleLogout}/>
           <p>Hi user with id {user?.id}, you are authenticated : {isAuthenticated ? "true" : "false"}!</p>
         </div>
         

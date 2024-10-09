@@ -1,0 +1,43 @@
+<svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="350" 
+    height="150" 
+    viewBox="0 0 350 150"
+    style="overflow: hidden;"
+>
+    <!-- Background (optional) -->
+    <rect width="100%" height="100%" fill="lightgreen" />
+
+    <!-- Logo Image -->
+    <image 
+        href="/images/LOGO_IMAGE.png" 
+        width="350" 
+        height="100" 
+        x="0" 
+        y="0"
+    />
+
+    <!-- Company Name -->
+    <text
+        x="30%"
+        y="48%" 
+        font-family="'EB Garamond', serif" 
+        font-size="32" 
+        fill="black" 
+        letter-spacing="12"
+    >
+        DEEPER
+    </text>
+
+    <!-- Company Slogan -->
+    <text
+        x="30%" 
+        y="60%" 
+        font-family="'EB Garamond', serif" 
+        font-size="12" 
+        fill="black" 
+        letter-spacing="1.5"
+    >
+        BUILD REAL HUMAN INTERACTIONS
+    </text>
+</svg>

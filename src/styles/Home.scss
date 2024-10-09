@@ -1,3 +1,7 @@
+.home-background{
+  background-image: url('../../public/images/HOMEBACKGROUND2BW.png');
+}
+
 .home {
   background: linear-gradient(0deg, rgba(123, 0, 255, 0.104), rgb(221, 252, 255), rgba(208, 250, 255, 0.194) 95%);
   display: grid;
@@ -6,8 +10,6 @@
   border-radius: 20px;
   height: 100%;
   width: 80em;
-
-  
 
   section {
     .home-container {

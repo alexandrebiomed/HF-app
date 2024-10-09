@@ -2,14 +2,14 @@ $number-of-rows: 20;
 $number-of-columns: 10;
 
 .content-background{
-    background: url('../../public/images/quietSpace.png') no-repeat center center;
+    background: url('../../public/images/HOMEBACKGROUND2BW.png') no-repeat center center;
     background-size: cover; /* or contain */
     height: 100%;
     width: 100%;
     position: absolute;
     top: 0;
     left: 0;
-    opacity: 1; /* Adjust this value for desired opacity */
+    opacity: 0.3; /* Adjust this value for desired opacity */
     z-index: -1; /* Behind the content */
 }
 .gridLayout{
@@ -26,38 +26,76 @@ $number-of-columns: 10;
 
 .grid-item{
     display: grid;
-    border: solid 1px black;
-    place-content: center;
-    
+    border: solid 0px rgb(255, 255, 255);
+    filter: drop-shadow(0 0 2px rgb(0, 195, 255));
+    overflow: hidden; /* Prevent children from extending outside the parent */
 }
 
-.grid-item:hover {
-    scale: 1.01;
+.grid-item > * {
+    filter: none; /* Ensure children do not inherit the filter */
 }
 
-.Logo {
+.logo-container {
     display: flex;
     align-items: center;
+    justify-content: center;
     grid-row: 1 / span 2;
     grid-column: 1 / span 2;
+    background: rgb(255, 255, 255);
+    width: 100%;
 
-    background: white;
+    .contentLogo{
+        position: relative;
+        bottom: 7px;
+    }
 }
 
 .leftSideBar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 20px;
+    padding: 10px;
+    
     grid-row: 3 / -1;
     grid-column: 1 / span 2;
-    background: rgba(0, 204, 255, 0.752);
+    background: rgba(0, 0, 0, 0.752);
     /* Sidebar occupies the second row */
+
+    .menuItem{
+        font-size: 1.5em;
+        line-height: 30px;
+        width: 100%;
+        border-radius: 5px;
+        border: none;
+        background: linear-gradient(90deg, rgb(203, 239, 255), rgb(255, 241, 219));
+        color: rgb(0, 0, 0);
+        text-shadow: 0px 0px 1px rgb(80, 171, 250);
+        font-family: "EB Geramond", serif;
+    }
+
+    .menuItem:hover{
+        background: rgb(255, 255, 255);
+        filter : drop-shadow(0px 0px 3px blue);
+    }
 }
 
 .Panel {
     grid-row: 1 / -1;
-    grid-column: 3 / span 7;/* Main content occupies the first and second row */
-    background: rgba(255, 221, 189, 0.933);
+    grid-column: 3 / span 6;/* Main content occupies the first and second row */
+    background: rgb(255, 255, 255);
+    overflow-y: auto; /* Enable vertical scrolling */
+    max-height: 100vh; /* Adjust height as needed */
 }
 
 .rightSideBar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
     grid-row: 1 / -1;
-    grid-column: 10;/* Main content occupies the first and second row */
+    grid-column: span 3;/* Main content occupies the first and second row */
+    background: rgba(0, 76, 255, 0.193);
+    filter: none;
 }
